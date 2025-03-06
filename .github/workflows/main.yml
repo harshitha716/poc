@@ -87,13 +87,15 @@ jobs:
         env:
           ECR_REGISTRY: "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
         run: |
-          ECR_REPO=842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha
+          ECR_REPO="${ECR_REGISTRY}/${ECR_REPO}/${APP_NAME}"
           IMAGE_TAG=$NEW_TAG
-          docker build -t "${ECR_REPO}:${IMAGE_TAG}" --build-arg SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}" .
-          docker tag harshitha:$IMAGE_TAG 842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha:$IMAGE_TAG
-          docker push 842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha:name: Build and Deploy To Production
+          docker build -t $ECR_REPO:$IMAGE_TAG --build-arg SSH_PRIVATE_KEY="${{secrets[env.SSH_PRIVATE_KEY]}}" .
+          docker push $ECR_REPO:$IMAGE_TAG
+          echo "ECR_REPO=$ECR_REPO" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo ":whale2:App Image Tag: ${IMAGE_TAG} " >> $GITHUB_STEP_SUMMARY
 
-deploy-to-eks:
+  deploy-to-eks:
     name: Deploy to EKS
     runs-on: ubuntu-latest
     permissions:
