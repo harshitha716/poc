@@ -69,6 +69,10 @@ jobs:
           echo "NEW_TAG=$NEW_TAG"
           echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID"
           echo "AWS_REGION=$AWS_REGION"
+
+      - name: Debug Payload
+        run: |
+          echo "NEW_TAG from payload: ${{ github.event.client_payload.new_tag }}"
           
       - name: "Checkout repository on : ${{ env.NEW_TAG }}"
         uses: actions/checkout@v4
