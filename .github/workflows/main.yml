@@ -64,6 +64,12 @@ jobs:
       ECR_REPO: ${{ steps.build.outputs.ECR_REPO }}
 
     steps:
+      - name: Debug output
+        run: |
+          echo "NEW_TAG=$NEW_TAG"
+          echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID"
+          echo "AWS_REGION=$AWS_REGION"
+          
       - name: "Checkout repository on : ${{ env.NEW_TAG }}"
         uses: actions/checkout@v4
         with:
