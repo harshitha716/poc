@@ -1,0 +1,181 @@
+from unittest.mock import AsyncMock, patch, MagicMock
+import pytest
+from pydantic import BaseModel
+from pantheon_v2.core.modelrouter.factory import ModelRouterFactory
+
+from pantheon_v2.tools.common.contract_data_extracter.tool import (
+    ContractDataExtracterTool,
+)
+from pantheon_v2.tools.common.contract_data_extracter.models import (
+    ContractDataExtracterInput,
+    ContractDataExtracterOutput,
+)
+from pantheon_v2.core.modelrouter.models.models import GenerationRequest
+from pantheon_v2.core.modelrouter.constants.constants import SupportedLLMModels
+
+
+# Test schema models
+class SimpleContract(BaseModel):
+    title: str
+    amount: float
+
+
+class ComplexContract(BaseModel):
+    title: str
+    amount: float
+    date: str
+    parties: list[str]
+    terms: dict[str, str]
+
+
+# Mock response data
+SIMPLE_CONTRACT_DATA = SimpleContract(title="Software License Agreement", amount=5000.0)
+
+COMPLEX_CONTRACT_DATA = ComplexContract(
+    title="Service Agreement",
+    amount=10000.0,
+    date="2024-03-20",
+    parties=["Company A", "Company B"],
+    terms={"duration": "12 months", "payment_terms": "Net 30"},
+)
+
+
+@pytest.fixture
+def mock_router():
+    mock = MagicMock()
+    mock.generate = AsyncMock()
+    return mock
+
+
+@pytest.fixture
+def tool(mock_router):
+    with patch.object(ModelRouterFactory, "get_router", return_value=mock_router):
+        tool = ContractDataExtracterTool()
+        return tool
+
+
+@pytest.mark.asyncio
+async def test_simple_contract_extraction(tool):
+    # Mock response
+    mock_completion = MagicMock()
+    mock_completion.parsed_response = SIMPLE_CONTRACT_DATA
+    mock_completion.raw_response = "Extracted simple contract data"
+    mock_completion.finish_reason = "stop"
+    tool.model_router.generate.return_value = mock_completion
+
+    # Test input
+    input_params = ContractDataExtracterInput(
+        document_content="This is a software license agreement worth $5000",
+        output_model=SimpleContract,
+    )
+
+    # Execute
+    result = await tool.extract_data(input_params)
+
+    # Assertions
+    assert isinstance(result, ContractDataExtracterOutput)
+    assert result.extracted_data == SIMPLE_CONTRACT_DATA
+    assert result.extracted_data.title == "Software License Agreement"
+    assert result.extracted_data.amount == 5000.0
+
+    # Verify model router call
+    tool.model_router.generate.assert_called_once()
+    call_args = tool.model_router.generate.call_args[0][0]
+    assert isinstance(call_args, GenerationRequest)
+    assert call_args.model_name == SupportedLLMModels.CLAUDE_3_5
+    assert call_args.temperature == 0.1
+
+
+@pytest.mark.asyncio
+async def test_complex_contract_extraction(tool):
+    # Mock response
+    mock_completion = MagicMock()
+    mock_completion.parsed_response = COMPLEX_CONTRACT_DATA
+    mock_completion.raw_response = "Extracted complex contract data"
+    mock_completion.finish_reason = "stop"
+    tool.model_router.generate.return_value = mock_completion
+
+    # Test input
+    input_params = ContractDataExtracterInput(
+        document_content="Complex service agreement document",
+        output_model=ComplexContract,
+        additional_prompt="Please extract all contract details including parties and terms",
+    )
+
+    # Execute
+    result = await tool.extract_data(input_params)
+
+    # Assertions
+    assert isinstance(result, ContractDataExtracterOutput)
+    assert result.extracted_data == COMPLEX_CONTRACT_DATA
+    assert len(result.extracted_data.parties) == 2
+    assert isinstance(result.extracted_data.terms, dict)
+
+
+@pytest.mark.asyncio
+async def test_base64_document_extraction(tool):
+    # Mock response
+    mock_completion = MagicMock()
+    mock_completion.parsed_response = SIMPLE_CONTRACT_DATA
+    mock_completion.raw_response = "Extracted from base64 document"
+    mock_completion.finish_reason = "stop"
+    tool.model_router.generate.return_value = mock_completion
+
+    # Test input with base64 content
+    base64_content = "data:application/pdf;base64,SGVsbG8gV29ybGQ="
+    input_params = ContractDataExtracterInput(
+        document_content=base64_content, output_model=SimpleContract
+    )
+
+    # Execute
+    result = await tool.extract_data(input_params)
+
+    # Assertions
+    assert isinstance(result, ContractDataExtracterOutput)
+
+    # Verify base64 content in generation request
+    call_args = tool.model_router.generate.call_args[0][0]
+    assert isinstance(call_args, GenerationRequest)
+    prompt_messages = call_args.prompt_chain.build_messages()
+    assert any(base64_content in str(message.content) for message in prompt_messages)
+
+
+@pytest.mark.asyncio
+async def test_with_additional_prompt_instructions(tool):
+    # Mock response
+    mock_completion = MagicMock()
+    mock_completion.parsed_response = SIMPLE_CONTRACT_DATA
+    mock_completion.raw_response = "Extracted with additional instructions"
+    mock_completion.finish_reason = "stop"
+    tool.model_router.generate.return_value = mock_completion
+
+    # Test input with specific instructions
+    additional_prompt = "Focus on financial terms and agreement title only"
+    input_params = ContractDataExtracterInput(
+        document_content="Contract document content",
+        output_model=SimpleContract,
+        additional_prompt=additional_prompt,
+    )
+
+    # Execute
+    await tool.extract_data(input_params)
+
+    # Verify additional prompt in configuration
+    call_args = tool.model_router.generate.call_args[0][0]
+    prompt = call_args.prompt_chain.prompts[0]
+    assert prompt.config.variables["ADDITIONAL_PROMPT"] == additional_prompt
+
+
+@pytest.mark.asyncio
+async def test_model_router_error_handling(tool):
+    # Mock router to raise an exception
+    tool.model_router.generate.side_effect = Exception("Model router error")
+
+    input_params = ContractDataExtracterInput(
+        document_content="Contract content", output_model=SimpleContract
+    )
+
+    # Verify exception is raised
+    with pytest.raises(Exception) as exc_info:
+        await tool.extract_data(input_params)
+    assert str(exc_info.value) == "Model router error"

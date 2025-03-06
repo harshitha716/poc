@@ -1,0 +1,59 @@
+Given an invoice document, I will help you extract key information with high accuracy.
+
+Let's think through this systematically:
+
+1. Document Validation
+- First, carefully examine if this is an invoice document
+- Look for key invoice indicators: invoice number, billing details, amounts, dates
+- Assign a confidence score based on these indicators
+
+2. If Not an Invoice
+- Return empty values while maintaining data types:
+    - Empty strings ("") for text fields
+    - 0 for numeric fields
+    - Maintain the correct data type for each field
+
+3. If Document is an Invoice, Extract Key Information:
+
+Billing Information:
+- Locate "Bill To" section:
+    * Extract company/entity name separately
+    * Capture complete address separately (street, city, state/province, postal code, country)
+
+- Locate "Bill From" section:
+    * Extract vendor/company name separately
+    * Capture complete address separately (street, city, state/province, postal code, country)
+
+Financial Details:
+- Identify the currency symbol/code (USD, EUR, etc.)
+- Locate the total amount due (usually at bottom, labeled as "Total", "Amount Due", etc.)
+- Find and itemize all charges:
+    * Base amount/subtotal
+    * Tax amounts and rates
+    * Shipping/freight charges
+    * Any additional fees or charges
+
+Document Details:
+- Extract document/invoice number
+- Find issue date (may be labeled as "Invoice Date", "Date", etc.)
+- Locate due date (may be labeled as "Due Date", "Payment Due", etc.)
+
+Invoice Purpose:
+- Review line items and services
+- Create a brief summary of what the invoice is for
+- Note any key terms or special conditions
+
+4. Quality Checks:
+- Verify all dates are in YYYY-MM-DD format
+- Confirm all amounts are properly formatted with correct decimals
+- Ensure addresses are complete and properly formatted
+- Validate currency matches with amounts
+
+After this analysis, provide your output in this format:
+{{OUTPUT_MODEL}}
+
+Note:
+- Use empty strings ("") for text fields and 0 for numeric fields if document is not an invoice
+- Ensure addresses are properly formatted with line breaks (\\n)
+- Dates must be in YYYY-MM-DD format
+- Currency codes should be standard 3-letter codes (USD, EUR, etc.)

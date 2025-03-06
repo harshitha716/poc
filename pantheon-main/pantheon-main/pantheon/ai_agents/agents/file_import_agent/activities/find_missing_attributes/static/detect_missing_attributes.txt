@@ -1,0 +1,30 @@
+Analyze the following data and identify if any of these attributes are present: {unmapped_attributes}.
+If found, return a JSON object with the attribute name as the key and an object containing 'value' and 'attribute_type' as the value.
+Only include attributes that are found with high confidence.
+If no attributes are found, return an empty JSON object.
+
+Pay special attention to the following:
+1. Opening balance: Look for terms like "Opening Balance", "Beginning Balance", or "Balance brought forward". This is typically the initial balance shown on the statement for the period.
+2. Opening balance date: This is usually the first date mentioned in the statement or labeled as 'Statement Period Start Date' or 'From [date]'.
+
+Note: The opening balance is completely separate from the regular transaction balances. It represents the account balance at the start of the statement period.
+
+The opening balance and its date are crucial. If you find them, make sure to include them in your response, even if they're not explicitly listed in the unmapped_attributes.
+
+Use the following ACCEPTED_FORMAT to determine the correct data type for each attribute:
+{ACCEPTED_FORMAT}
+
+Metadata:
+{cleaned_data_str}
+
+Respond only with the JSON object, no additional text. Example format:
+{{
+    "attribute_name": {{
+        "value": "actual_value",
+        "attribute_type": "type_from_accepted_format"
+    }},
+    "opening_balance": {{
+        "value": "opening_balance_value",
+        "attribute_type": "float"
+    }}
+}}

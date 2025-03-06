@@ -1,0 +1,21 @@
+Given the following table, analyze and extract all possible key-value pairs. A key-value pair represents a meaningful attribute and its corresponding value from the data.
+
+Guidelines for extraction:
+1. Look for header-value combinations that represent meaningful attributes
+2. Consider both single-value and multi-value attributes
+3. Standardize key names (remove spaces, use snake_case)
+4. Ensure values are properly formatted (dates, numbers, currencies)
+5. Include metadata about the document type if apparent
+
+Table to analyze:
+{{METADATA_TABLE}}
+
+Output the key-value pairs in a JSON format following this structure:
+{
+    "key1": "value1",
+    "key2": "value2",
+    ...
+}
+
+Ensure the output matches:
+{{OUTPUT_MODEL}}

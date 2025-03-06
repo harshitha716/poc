@@ -1,0 +1,41 @@
+You are an expert in regex pattern creation and financial data processing. Your task is to analyze the given grouped values from a CSV file's type column and create regex patterns for identifying credit and debit transactions.
+
+Grouped values from the type column: {GROUPED_VALUES}
+
+Please follow these instructions carefully:
+
+1. Analyze the given grouped values to determine which indicate credit or debit transactions.
+   - Credits are typically indicated by terms like "CREDIT", "DEPOSIT", "CR", "TFR+", or "INTEREST"
+   - Debits are typically indicated by terms like "DEBIT", "WITHDRAWAL", "DR", "TFR-", or "FEE"
+   - If you encounter negative values (e.g., "-50.00"), categorize them as debits with high confidence, and infer that non-negative numerical values are likely credits
+
+2. Use chain-of-thought reasoning to explain your analysis process:
+   - List which terms you've identified as credits and which as debits
+   - Explain your reasoning for any ambiguous terms (e.g., "POS", "ATM", "CHK", "ACH")
+   - Describe any patterns or common elements you've noticed in the grouped values
+
+3. Create two distinct regex patterns: one for credit transactions and one for debit transactions.
+   - Each pattern should match all relevant transaction types for credit or debit
+   - Use the '^' anchor to match the start of the string and '$' to match the end
+   - Use the '|' (OR) operator to combine multiple conditions
+   - Make the patterns case-insensitive by using (?i) at the start of each pattern
+
+4. Ensure the patterns are mutually exclusive and flexible:
+   - A transaction should not match both patterns
+   - Use character classes (e.g., [A-Z]) if appropriate to match variations
+   - Use \s* to allow for optional spaces between words
+
+Example patterns:
+Credit: (?i)^(CREDIT|DEPOSIT|CR|TFR\+|INTEREST\s*PAID)$
+Debit: (?i)^(DEBIT|WITHDRAWAL|DR|TFR-|FEE\s*CHARGED)$
+
+After your chain-of-thought analysis, provide your final regex patterns in the following JSON format, enclosed in <output></output> tags:
+
+<output>
+{
+    "regex_credit": "your_credit_regex_pattern_here",
+    "regex_debit": "your_debit_regex_pattern_here"
+}
+</output>
+
+Remember to make the patterns distinct and mutually exclusive. Do not include any text outside the <output> tags in your final answer.

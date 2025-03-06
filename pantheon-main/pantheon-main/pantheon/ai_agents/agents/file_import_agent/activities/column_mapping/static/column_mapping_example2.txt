@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Date in format",
+    "type": "date",
+    "region": "A17:A31"
+  },
+  {
+    "name": "Transaction Date",
+    "type": "date",
+    "region": "B17:B31"
+  },
+  {
+    "name": "Value Date",
+    "type": "date",
+    "region": "C17:C31"
+  },
+  {
+    "name": "Narration",
+    "type": "string",
+    "region": "D17:D31"
+  },
+  {
+    "name": "Transaction Reference",
+    "type": "string",
+    "region": "E17:E31"
+  },
+  {
+    "name": "Debit",
+    "type": "number",
+    "region": "F17:F31"
+  },
+  {
+    "name": "Credit",
+    "type": "number",
+    "region": "G17:G31"
+  },
+  {
+    "name": "Running Balance",
+    "type": "string",
+    "region": "H17:H31"
+  },
+  {
+    "name": "Net (LC)",
+    "type": "number",
+    "region": "I17:I31"
+  },
+  {
+    "name": "Transaction Type",
+    "type": "string",
+    "region": "J17:J31"
+  },
+  {
+    "name": "Txn Type 2",
+    "type": "string",
+    "region": "K17:K31"
+  },
+  {
+    "name": "Debit",
+    "type": "string",
+    "region": "L17:L31"
+  },
+  {
+    "name": "Credit",
+    "type": "number",
+    "region": "M17:M31"
+  },
+  {
+    "name": "Running Balance",
+    "type": "string",
+    "region": "N17:N31"
+  },
+  {
+    "name": "3.00",
+    "type": "number",
+    "region": "O17:O31"
+  }
+]

@@ -1,0 +1,1 @@
+PLATFORM_WORKFLOW_LABEL = "platform"

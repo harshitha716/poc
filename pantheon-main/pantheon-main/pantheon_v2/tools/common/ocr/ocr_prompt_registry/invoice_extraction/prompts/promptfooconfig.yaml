@@ -1,0 +1,18 @@
+description: "OCR tool prompt"
+
+providers:
+  - id: 'file://../../../../../../core/evals/provider.py'
+    label: "claude-3.5-sonnet"
+    config:
+      model_name: "claude-3.5-sonnet"
+      chains:
+        - id: "invoice_extraction"
+          response_model: "pantheon_v2.tools.common.ocr.models.InvoiceData"
+          prompts:
+            - id: "initial_extraction"
+              template: "pantheon_v2/tools/common/ocr/ocr_prompt_registry/invoice_extraction/prompts/invoice_extraction_prompt.txt"
+
+tests: test_ocr.yaml
+# sharing:
+#   apiBaseUrl: http://localhost:3005
+#   appBaseUrl: http://localhost:3005

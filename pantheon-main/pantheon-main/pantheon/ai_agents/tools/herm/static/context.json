@@ -1,0 +1,39 @@
+{
+  "sheet_name": "Sheet 1",
+  "sheet_id": 1,
+  "tables": [
+    {
+      "range": "C2:G6",
+      "total_rows": 5,
+      "total_columns": 5,
+      "has_header": true,
+      "columns": [
+        {
+          "header": "TxnId",
+          "id": "C",
+          "sample_values": ["123", "456", "789", "000"]
+        },
+        {
+          "header": "Amount",
+          "id": "D",
+          "sample_values": ["100", "100", "100", "100"]
+        },
+        {
+          "header": "New Amounts",
+          "id": "E",
+          "sample_values": ["250", "350", "450", "550"]
+        },
+        {
+          "header": "Payments",
+          "id": "F",
+          "sample_values": ["4", "300", "400", "500"]
+        },
+        {
+          "header": "total",
+          "id": "G",
+          "sample_values": ["400.0", "", "", ""]
+        }
+      ]
+    }
+  ]
+}

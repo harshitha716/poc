@@ -1,0 +1,902 @@
+- description: "Kentucky Fried Chicken Pty Ltd"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/AUD Tax 1.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 14473.05 && output.bill_to_name.includes('DOORDASH TECHNOLOGIES') && output.bill_from_name.includes('Kentucky Fried Chicken') && output.confidence > 0.9 && output.invoice_number === "61259250" && output.currency === "AUD"
+
+- description: "ZOOMO PTY. LTD."
+  vars:
+    files:
+      - path: "evals/ocr/invoices/AUD Tax 2.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 21316.08 && output.bill_to_name.includes('DoorDash Technologies') && output.bill_from_name.includes('ZOOMO') && output.confidence > 0.9 && output.invoice_number === "202401001DDTA" && output.currency === "AUD"
+
+- description: "A.G.Coombs"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/AUD Tax 3.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 19195 && output.bill_to_name.includes('DOORDASH TECHNOLOGIES') && output.bill_from_name.includes('A.G. Coombs') && output.confidence > 0.9 && output.invoice_number === "SVC388848" && output.currency === "AUD"
+
+- description: "EY Portuguese"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/BRZ tax 1.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 209968.88 && output.bill_to_name.includes('DOORDASH TECNOLOGIAS') && output.bill_from_name.includes('Ernst & Young') && output.confidence > 0.9 && output.invoice_number === "BR03BZ13058964" && output.currency === "BRL"
+
+- description: "PEOPLE 2.0 Portuguese template 1"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Brazil invoice with whitholding tax 2024 141.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 111318.87 && output.bill_to_name.includes('DOORDASH TECNOLOGIAS') && output.bill_from_name.includes('PEOPLE 2.0 BRASIL') && output.confidence > 0.9 && output.invoice_number === "2024/141" && output.currency === "BRL"
+
+- description: "PEOPLE 2.0 Portuguese template 2"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Brazil invoice with whitholding tax 2024 157.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 22213.52 && output.bill_to_name.includes('DOORDASH TECNOLOGIAS') && output.bill_from_name.includes('PEOPLE 2.0 BRASIL') && output.confidence > 0.9 && output.invoice_number === "2024/157" && output.currency === "BRL"
+
+- description: "Daughter"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/CAD tax 2.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 2087.32 && output.bill_to_name.includes('DoorDash Technologies Canada') && output.bill_from_name.includes('Daughter') && output.confidence > 0.9 && output.invoice_number === "INV-4360" && output.currency === "CAD"
+- description: "Staples"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/CAD tax 3.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 76452.41 && output.bill_to_name.includes('RAPID RETAIL') && output.bill_from_name.includes('Staples') && output.confidence > 0.9 && output.invoice_number === "1112525" && output.currency === "CAD"
+- description: "Candaian red cross"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/CAD tax 4.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 282.5 && output.bill_to_name.includes('RAPID RETAIL') && output.bill_from_name.includes('Canadian Red Cross') && output.confidence > 0.9 && output.invoice_number === "CRC-P-021221" && output.currency === "CAD"
+- description: "Hard work club"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/CAD tax.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 39537.57 && output.bill_to_name.includes('DoorDash Technologies Canada') && output.bill_from_name.includes('Hard Work Club') && output.confidence > 0.9 && output.invoice_number === "1224" && output.currency === "CAD"
+- description: "Service Channel"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Canada Taxes.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 58267.32 && output.bill_to_name.includes('Rapid Retail') && output.bill_from_name.includes('ServiceChannel') && output.confidence > 0.9 && output.invoice_number === "20240725050610-75766" && output.currency === "CAD"
+- description: "FedEx"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/DRI uknown issue.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 586.71 && output.bill_to_name.includes('DOORDASH') && output.bill_from_name.includes('FEDEX') && output.confidence > 0.9 && output.invoice_number === "119800013258" && output.currency === "USD"
+- description: "NY Mutual Trading(Printed invoice)"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Manual review in Coupa NY Mutual.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 212.9 && output.bill_to_name.includes('DOORDASH') && output.bill_from_name.includes('NY MUTUAL TRADING') && output.confidence > 0.9 && output.invoice_number === "5254462" && output.currency === "USD"
+- description: "National crime check 138 pages"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/NZD Tax 1.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 92292.21 && output.bill_to_name.includes('Doordash Technologies New Zealand') && output.bill_from_name.includes('National Crime Check') && output.confidence > 0.9 && output.invoice_number === "4626343" && output.currency === "NZD"
+- description: "National crime check 158 pages"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/NZD Tax 2.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 105022.17 && output.bill_to_name.includes('Doordash Technologies New Zealand') && output.bill_from_name.includes('National Crime Check') && output.confidence > 0.9 && output.invoice_number === "4558916" && output.currency === "NZD"
+- description: "Sling & stone"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/NZD Tax 3.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 5175 && output.bill_to_name.includes('DoorDash Technologies New Zealand') && output.bill_from_name.includes('Sling & Stone') && output.confidence > 0.9 && output.invoice_number === "INV-5929" && output.currency === "NZD"
+- description: "Fedex non PO invoice"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Non PO invoice 8 675 30742.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 17212.02 && output.bill_to_name.includes('DOORDASH') && output.bill_from_name.includes('FedEx') && output.confidence > 0.9 && output.invoice_number === "8-675-30742" && output.currency === "USD"
+- description: "Not valid invoice"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Not valid invoice.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+    - type: javascript
+      value: output.is_invoice === false
+- description: "Seattle Latino"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/PO Missing example.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 35000 && output.bill_to_name.includes('DoorDash') && output.bill_from_name.includes('Seattle Latino') && output.confidence > 0.9 && output.invoice_number === "162-2024" && output.currency === "USD"
+- description: "GASTRONOMICA DE MORELOS (Spanish invoice) 1"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Spanish invoice 619.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 569815.2 && output.bill_to_name.includes('DOORDASH TECHNOLOGIES MEXICO') && output.bill_from_name.includes('GASTRONOMICA DE MORELOS') && output.confidence > 0.9 && output.invoice_number === "619" && output.currency === "MXN"
+- description: "GASTRONOMICA DE MORELOS (Spanish invoice) 2"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Spanish invoice 629.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 218346.8 && output.bill_to_name.includes('DOORDASH TECHNOLOGIES MEXICO') && output.bill_from_name.includes('GASTRONOMICA DE MORELOS') && output.confidence > 0.9 && output.invoice_number === "629" && output.currency === "MXN"
+- description: "GASTRONOMICA DE MORELOS (Spanish invoice) 3"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/Spanish invoice 632.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 18560 && output.bill_to_name.includes('DOORDASH TECHNOLOGIES MEXICO') && output.bill_from_name.includes('GASTRONOMICA DE MORELOS') && output.confidence > 0.9 && output.invoice_number === "632" && output.currency === "MXN"
+- description: "Echelon (Unable to extract)"
+  vars:
+    files:
+      - path: "evals/ocr/invoices/echelon.pdf"
+        prompt_ids: ["initial_extraction"]
+  chain: ${chains.invoice_extraction}
+  assert:
+    - type: is-json
+      value:
+        required: ["is_invoice", "confidence", "bill_to_name", "bill_to_address", "bill_from_name", "bill_from_address", "currency", "invoice_number", "issue_date", "due_date", "total_amount", "itemized_breakdown", "description"]
+        type: object
+        properties:
+          is_invoice:
+            type: boolean
+          confidence:
+            type: number
+          bill_to_name:
+            type: string
+          bill_to_address:
+            type: string
+          bill_from_name:
+            type: string
+          bill_from_address:
+            type: string
+          currency:
+            type: string
+          invoice_number:
+            type: string
+          issue_date:
+            type: string
+          due_date:
+            type: string
+          total_amount:
+            type: number
+          itemized_breakdown:
+            type: string
+          description:
+            type: string
+    - type: javascript
+      value: output.total_amount === 1243.76 && output.bill_to_name.includes('DOOR DASH') && output.bill_from_name.includes('ECHELON') && output.confidence > 0.9 && output.invoice_number === "5308874" && output.currency === "USD"

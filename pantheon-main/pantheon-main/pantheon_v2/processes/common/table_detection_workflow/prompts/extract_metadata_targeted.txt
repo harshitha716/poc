@@ -1,0 +1,25 @@
+Given the following table, search for specific target attributes and extract their corresponding values. Only extract values for the requested attributes.
+
+Target attributes to search for:
+{{TARGET_ATTRIBUTES}}
+
+Guidelines for extraction:
+1. Only extract values for the specified target attributes
+2. Look for semantic matches (e.g., "client_name" might match "customer", "buyer", etc.)
+3. Consider both exact and fuzzy matches of attribute names
+4. If an attribute is not found, exclude it from the output
+5. Ensure values are properly formatted (dates, numbers, currencies)
+
+Table to analyze:
+{{METADATA_TABLE}}
+
+Output the found key-value pairs in a JSON format following this structure:
+{
+    "target_attribute1": "value1",
+    "target_attribute2": "value2",
+    ...
+}
+
+Only include attributes from the target list that were found in the data.
+Ensure the output matches:
+{{OUTPUT_MODEL}}

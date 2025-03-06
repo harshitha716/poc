@@ -1,0 +1,72 @@
+bank_statement:
+  - initiated_date:
+      description: The date when the transaction was first initiated or processed. Common column names include "Value Date", "Transaction Date", or "Trade Date". Must contain day, month, and year. Time component is optional. This represents when the transaction was started, not necessarily when it affected the account balance.
+      type: date
+      required: true
+
+  - updated_date:
+      description: The date when the transaction was actually applied to the account balance. Common column names include "Posted Date", "Settlement Date", "Booking Date", or "Effective Date". Must contain day, month, and year. Time component is optional. This date may differ from the initiated_date due to processing delays or settlement periods.
+      type: date
+      required: true
+
+  - account_number:
+      description: The account number associated with the statement
+      type: string
+      required: true
+
+  - credit:
+      description: The amount credited to the account. Map this for columns representing money added to the account, using terms like "credit", "deposit", "incoming", etc. A row will have either a credit or a debit value, not both. Use sample data to verify this pattern.
+      type: float
+      required: false
+
+  - debit:
+      description: The amount debited from the account. Map this for columns representing money taken from the account, using terms like "debit", "withdrawal", "outgoing", etc. A row will have either a credit or a debit value, not both. Use sample data to verify this pattern.
+      type: float
+      required: false
+
+  - transaction_amount:
+      description: Use this when a single column represents both credits and debits, typically with credits as positive and debits as negative. Do not map if credit and debit are separately identified. Unlike credit/debit, this column will have a value in every row.
+      type: float
+      required: false
+
+  - balance:
+      description: The account balance after the transaction
+      type: float
+      required: true
+
+  - remarks:
+      description: Additional notes or comments about the transaction
+      type: string
+      required: true
+
+  - currency_code:
+      description: The currency code for the transaction
+      type: string
+      required: false
+
+  - status:
+      description: The current status of the transaction
+      type: string
+      required: false
+
+  - transaction_type:
+      description: The type of transaction
+      type: string
+      required: false
+
+  - transaction_sub_type:
+      description: A more specific categorization of the transaction
+      type: string
+      required: false
+
+  - bank_reference_id:
+      description: A unique identifier for the transaction provided by the bank
+      type: string
+      required: false
+
+  - tag:
+      description: User-defined tags for categorizing transactions
+      type: string
+      required: false
+
+  note: Credit and debit should not be mapped to the same attribute. If it does, then that value is transaction_amount.

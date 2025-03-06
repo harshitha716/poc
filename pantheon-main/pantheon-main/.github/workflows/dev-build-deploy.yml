@@ -1,0 +1,223 @@
+name: Build and Deploy To Development
+
+on:
+  schedule:
+    - cron: "0 19 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - development
+    paths-ignore:
+      - "helm/dev-values.yaml"
+      - "helm/prd-values.yaml"
+      - "helm/stg-values.yaml"
+      - ".github/workflows/*"
+env:
+  APP_NAME: pantheon
+
+concurrency:
+  group: development-deploy
+  cancel-in-progress: false
+
+jobs:
+  prepare-env:
+    name: Prepare Env
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      GCP_WORKLOAD_IDENTITY_SA: ${{ steps.vars.outputs.GCP_WORKLOAD_IDENTITY_SA }}
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ steps.vars.outputs.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      GCP_REGION: ${{ steps.vars.outputs.GCP_REGION }}
+      GKE_ZONE: ${{ steps.vars.outputs.GKE_ZONE }}
+      GCP_PROJECT_ID: ${{ steps.vars.outputs.GCP_PROJECT_ID }}
+      BUILD_ENV: ${{ steps.vars.outputs.BUILD_ENV }}
+      PROJECT_PREFIX: ${{ steps.vars.outputs.PROJECT_PREFIX }}
+      K8S_CLUSTER: ${{ steps.vars.outputs.K8S_CLUSTER }}
+      K8S_NAMESPACE: ${{ steps.vars.outputs.K8S_NAMESPACE }}
+      HELM_CHART_NAME: ${{ steps.vars.outputs.HELM_CHART_NAME }}
+      HELM_REPOSITORY: ${{ steps.vars.outputs.HELM_REPOSITORY }}
+      APP_NAME: ${{ steps.vars.outputs.APP_NAME }}
+      SLACK_WEBHOOK_URL: ${{ steps.vars.outputs.SLACK_WEBHOOK_URL }}
+      ENVIRONMENT: ${{ steps.vars.outputs.ENVIRONMENT }}
+      SSH_PRIVATE_KEY: ${{ steps.vars.outputs.SSH_PRIVATE_KEY }}
+    steps:
+      - id: vars
+        run: |
+          echo "GCP_WORKLOAD_IDENTITY_PROVIDER=projects/622745278345/locations/global/workloadIdentityPools/github-oidc-pool/providers/github-provider" >> $GITHUB_OUTPUT
+          echo "GCP_WORKLOAD_IDENTITY_SA=github-action-sa@development-351109.iam.gserviceaccount.com" >> $GITHUB_OUTPUT
+          echo "GCP_REGION=asia-southeast1" >> $GITHUB_OUTPUT
+          echo "GKE_ZONE=asia-southeast1-a" >> $GITHUB_OUTPUT
+          echo "GCP_PROJECT_ID=development-351109"  >> $GITHUB_OUTPUT
+          echo "BUILD_ENV=dev" >> $GITHUB_OUTPUT
+          echo "PROJECT_PREFIX=zamp-dev-sg" >> $GITHUB_OUTPUT
+          echo "K8S_CLUSTER=zamp-dev-sg-gke-cluster-v2" >> $GITHUB_OUTPUT
+          echo "K8S_NAMESPACE=pantheon" >> $GITHUB_OUTPUT
+          echo "HELM_CHART_NAME=zamp-svc" >> $GITHUB_OUTPUT
+          echo "HELM_REPOSITORY=zamp-dev-sg-helm-repository/zamp-svc" >> $GITHUB_OUTPUT
+          echo "SLACK_WEBHOOK_URL=DEV_SLACK_WEBHOOK_URL" >> $GITHUB_OUTPUT
+          echo "ENVIRONMENT=Development" >> $GITHUB_OUTPUT
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "SSH_PRIVATE_KEY=SSH_PRIVATE_KEY" >> $GITHUB_OUTPUT
+      - name: Output Branch name
+        run: |
+          echo ":seedling: Branch:${GITHUB_REF#refs/heads/}" >> $GITHUB_STEP_SUMMARY
+
+  build-push-image:
+    needs:
+      - prepare-env
+    name: Build and Push Image
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    env:
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{needs.prepare-env.outputs.GCP_WORKLOAD_IDENTITY_PROVIDER}}
+      GCP_WORKLOAD_IDENTITY_SA: ${{needs.prepare-env.outputs.GCP_WORKLOAD_IDENTITY_SA}}
+      GCP_REGION: ${{needs.prepare-env.outputs.GCP_REGION}}
+      GCP_PROJECT_ID: ${{needs.prepare-env.outputs.GCP_PROJECT_ID}}
+      APP_NAME: ${{needs.prepare-env.outputs.APP_NAME}}
+      PROJECT_PREFIX: ${{needs.prepare-env.outputs.PROJECT_PREFIX}}
+      SSH_PRIVATE_KEY: ${{needs.prepare-env.outputs.SSH_PRIVATE_KEY}}
+    outputs:
+      IMAGE_TAG: ${{ steps.build.outputs.IMAGE_TAG }}
+      GAR_REPO: ${{ steps.build.outputs.GAR_REPO }}
+
+    steps:
+      - name: "Checkout repository on : ${{ github.REF }}"
+        uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ env.GCP_WORKLOAD_IDENTITY_SA }}'
+
+      - uses: "docker/login-action@v3"
+        with:
+          registry: "${{ env.GCP_REGION }}-docker.pkg.dev"
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
+
+      - id: build
+        name: Build and Push Image
+        env:
+          GAR_REGISTRY: "${{ env.GCP_REGION }}-docker.pkg.dev"
+        run: |
+          GAR_REPO="${GAR_REGISTRY}/${GCP_PROJECT_ID}/${PROJECT_PREFIX}-container-repo/${APP_NAME}"
+          IMAGE_TAG=$GITHUB_SHA-$GITHUB_RUN_NUMBER-$(date +%s)
+          docker build -t $GAR_REPO:$IMAGE_TAG --build-arg SSH_PRIVATE_KEY="${{secrets[env.SSH_PRIVATE_KEY]}}" .
+          docker push $GAR_REPO:$IMAGE_TAG
+          echo "GAR_REPO=$GAR_REPO" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo ":whale2:App Image Tag: ${IMAGE_TAG} " >> $GITHUB_STEP_SUMMARY
+
+  deploy-to-k8s:
+    name: Deploy to K8s
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 15
+    needs:
+      - prepare-env
+      - build-push-image
+    env:
+      APP_NAME: ${{needs.prepare-env.outputs.APP_NAME}}
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{needs.prepare-env.outputs.GCP_WORKLOAD_IDENTITY_PROVIDER}}
+      GCP_WORKLOAD_IDENTITY_SA: ${{needs.prepare-env.outputs.GCP_WORKLOAD_IDENTITY_SA}}
+      GCP_REGION: ${{needs.prepare-env.outputs.GCP_REGION}}
+      GKE_ZONE: ${{needs.prepare-env.outputs.GKE_ZONE}}
+      HELM_REPOSITORY: ${{needs.prepare-env.outputs.HELM_REPOSITORY}}
+      HELM_CHART_NAME: ${{needs.prepare-env.outputs.HELM_CHART_NAME}}
+      K8S_NAMESPACE: ${{needs.prepare-env.outputs.K8S_NAMESPACE}}
+      K8S_CLUSTER: ${{needs.prepare-env.outputs.K8S_CLUSTER}}
+      GAR_REPO: ${{needs.build-push-image.outputs.GAR_REPO}}
+      IMAGE_TAG: ${{needs.build-push-image.outputs.IMAGE_TAG}}
+      BUILD_ENV: ${{needs.prepare-env.outputs.BUILD_ENV}}
+
+    steps:
+      - name: "Checkout repository on : ${{ github.REF }}"
+        uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ env.GCP_WORKLOAD_IDENTITY_SA }}'
+
+      - uses: azure/setup-helm@v4
+        name: Install Helm
+        with:
+          version: "v3.7.2"
+
+      - uses: azure/setup-kubectl@v4
+        name: Install kubectl
+        with:
+          version: "v1.22.0"
+
+      - name: GKE config
+        id: "get-credentials"
+        uses: "google-github-actions/get-gke-credentials@v2"
+        with:
+          cluster_name: "${{ env.K8S_CLUSTER }}"
+          location: "${{ env.GKE_ZONE }}"
+
+      - name: Install helm gcs plugin
+        run: |
+          helm plugin install https://github.com/hayorov/helm-gcs.git --version 0.4.1
+          helm plugin update gcs
+
+      - name: Deploy
+        run: |
+
+          helm repo add ${K8S_NAMESPACE}-repo gs://${HELM_REPOSITORY} && helm repo update
+          helm upgrade --install ${APP_NAME} ${K8S_NAMESPACE}-repo/${HELM_CHART_NAME} \
+              --namespace ${K8S_NAMESPACE} \
+              --set default.image.repository="${GAR_REPO}" \
+              --set default.image.tag="${IMAGE_TAG}" \
+              --values helm/${BUILD_ENV}-values.yaml \
+              --wait \
+              --timeout 10m0s \
+              --create-namespace
+  ## Slack Alert
+  slack-notification:
+    name: Slack Notification
+    if: always()
+    runs-on: ubuntu-latest
+    needs:
+      - prepare-env
+      - build-push-image
+      - deploy-to-k8s
+    env:
+      SLACK_WEBHOOK_URL: ${{needs.prepare-env.outputs.SLACK_WEBHOOK_URL}}
+      ENVIRONMENT: ${{needs.prepare-env.outputs.ENVIRONMENT}}
+    steps:
+      - uses: technote-space/workflow-conclusion-action@v3
+      - name: Update slack message body and environment
+        id: body
+        run: |
+          if [ '${{ env.WORKFLOW_CONCLUSION }}' == 'success' ]
+          then
+            echo "SLACK_MESSAGE=Success :white_check_mark:" >> $GITHUB_OUTPUT
+          elif [ '${{ env.WORKFLOW_CONCLUSION }}'  == 'failure' ]
+          then
+            echo "SLACK_MESSAGE=Failed :x:"   >> $GITHUB_OUTPUT
+          elif [ '${{ env.WORKFLOW_CONCLUSION }}'  == 'cancelled' ]
+          then
+            echo "SLACK_MESSAGE=Cancelled :grey_exclamation:"   >> $GITHUB_OUTPUT
+          fi
+      - name: Slack Notification
+        uses: Zampfi/town_crier@main
+        env:
+          SLACK_COLOR: ${{ env.WORKFLOW_CONCLUSION }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://media-exp1.licdn.com/dms/image/C4D0BAQEsXCky1jDBjw/company-logo_200_200/0/1650191766210?e=2147483647&v=beta&t=skUuL49MkcdxJZmEEN2wy5E7Xqy176Ar7EPsKoSMUEE
+          SLACK_MESSAGE: ${{ steps.body.outputs.SLACK_MESSAGE }}
+          SLACK_TITLE: Build Status
+          SLACK_FOOTER: "<${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}>"
+          ZAMP_ENV: ${{ env.ENVIRONMENT }}
+          SLACK_USERNAME: Zamp-Devops
+          SLACK_WEBHOOK: ${{ secrets[env.SLACK_WEBHOOK_URL] }}

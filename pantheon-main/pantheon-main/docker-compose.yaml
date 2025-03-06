@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  python-api:
+    build:
+      context: ./python-api
+    ports:
+      - "8000:8000"
+    environment:
+      - GOOGLE_CLOUD_PROJECT=${GCP_PROJECT_ID}
+      - HOST_PORT=8000
+      - AUTH_KEY=${AUTH_KEY}
+      - GOOGLE_APPLICATION_CREDENTIALS=/gcp/creds.json
+    volumes:
+      - $HOME/.config/gcloud/application_default_credentials.json:/gcp/creds.json
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - python-api
+    environment:
+      - AUTH_KEY=${AUTH_KEY}
+volumes:
+  db_data:

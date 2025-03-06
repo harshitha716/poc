@@ -1,0 +1,584 @@
+{
+  "sheet_name": "0.parquet",
+  "sheet_id": 0,
+  "total_rows": 101,
+  "total_columns": 41,
+  "column_info": [
+    {
+      "id": "A",
+      "header": "transaction_id"
+    },
+    {
+      "id": "B",
+      "header": "account_number"
+    },
+    {
+      "id": "C",
+      "header": "transaction_date"
+    },
+    {
+      "id": "D",
+      "header": "transaction_time"
+    },
+    {
+      "id": "E",
+      "header": "transaction_type"
+    },
+    {
+      "id": "F",
+      "header": "amount"
+    },
+    {
+      "id": "G",
+      "header": "balance"
+    },
+    {
+      "id": "H",
+      "header": "currency"
+    },
+    {
+      "id": "I",
+      "header": "description"
+    },
+    {
+      "id": "J",
+      "header": "category"
+    },
+    {
+      "id": "K",
+      "header": "merchant_name"
+    },
+    {
+      "id": "L",
+      "header": "merchant_id"
+    },
+    {
+      "id": "M",
+      "header": "location"
+    },
+    {
+      "id": "N",
+      "header": "country"
+    },
+    {
+      "id": "O",
+      "header": "payment_method"
+    },
+    {
+      "id": "P",
+      "header": "card_type"
+    },
+    {
+      "id": "Q",
+      "header": "card_number"
+    },
+    {
+      "id": "R",
+      "header": "authorization_code"
+    },
+    {
+      "id": "S",
+      "header": "is_international"
+    },
+    {
+      "id": "T",
+      "header": "exchange_rate"
+    },
+    {
+      "id": "U",
+      "header": "fees"
+    },
+    {
+      "id": "V",
+      "header": "interest_rate"
+    },
+    {
+      "id": "W",
+      "header": "interest_amount"
+    },
+    {
+      "id": "X",
+      "header": "tax_amount"
+    },
+    {
+      "id": "Y",
+      "header": "status"
+    },
+    {
+      "id": "Z",
+      "header": "customer_id"
+    },
+    {
+      "id": "AA",
+      "header": "customer_name"
+    },
+    {
+      "id": "AB",
+      "header": "age"
+    },
+    {
+      "id": "AC",
+      "header": "gender"
+    },
+    {
+      "id": "AD",
+      "header": "occupation"
+    },
+    {
+      "id": "AE",
+      "header": "income_bracket"
+    },
+    {
+      "id": "AF",
+      "header": "credit_score"
+    },
+    {
+      "id": "AG",
+      "header": "account_type"
+    },
+    {
+      "id": "AH",
+      "header": "branch_id"
+    },
+    {
+      "id": "AI",
+      "header": "employee_id"
+    },
+    {
+      "id": "AJ",
+      "header": "promotion_code"
+    },
+    {
+      "id": "AK",
+      "header": "loyalty_points"
+    },
+    {
+      "id": "AL",
+      "header": "ip_address"
+    },
+    {
+      "id": "AM",
+      "header": "device_type"
+    },
+    {
+      "id": "AN",
+      "header": "user_agent"
+    },
+    {
+      "id": "AO",
+      "header": "__index_level_0__"
+    }
+  ],
+  "sample_records": [
+    {
+      "id": "A",
+      "records": [
+        "TXN-000000000026",
+        "TXN-000000000084",
+        "TXN-000000000054",
+        "TXN-000000000000",
+        "TXN-000000000078"
+      ]
+    },
+    {
+      "id": "B",
+      "records": [
+        "ACCT-0000000000",
+        "ACCT-0000000000",
+        "ACCT-0000000000",
+        "ACCT-0000000000",
+        "ACCT-0000000000"
+      ]
+    },
+    {
+      "id": "C",
+      "records": [
+        "2021-12-15 00:00:00.000000000",
+        "2022-08-21 00:00:00.000000000",
+        "2021-01-06 00:00:00.000000000",
+        "2023-12-19 00:00:00.000000000",
+        "2023-04-02 00:00:00.000000000"
+      ]
+    },
+    {
+      "id": "D",
+      "records": [
+        "06:13:06",
+        "06:54:03",
+        "00:27:46",
+        "06:30:20",
+        "11:44:26"
+      ]
+    },
+    {
+      "id": "E",
+      "records": [
+        "Fee",
+        "Transfer",
+        "Withdrawal",
+        "Fee",
+        "Deposit"
+      ]
+    },
+    {
+      "id": "F",
+      "records": [
+        "66.12",
+        "59.35",
+        "98.15",
+        "434.63",
+        "29.59"
+      ]
+    },
+    {
+      "id": "G",
+      "records": [
+        "3797.2200000000003",
+        "4585.0",
+        "2345.05",
+        "7349.49",
+        "5391.06"
+      ]
+    },
+    {
+      "id": "H",
+      "records": [
+        "USD",
+        "USD",
+        "GBP",
+        "USD",
+        "CAD"
+      ]
+    },
+    {
+      "id": "I",
+      "records": [
+        "Entertainment - Payment",
+        "Utilities - Transfer",
+        "Travel - Payment",
+        "Education - Payment",
+        "Miscellaneous - Transfer"
+      ]
+    },
+    {
+      "id": "J",
+      "records": [
+        "Rent",
+        "Utilities",
+        "Travel",
+        "Healthcare",
+        "Education"
+      ]
+    },
+    {
+      "id": "K",
+      "records": [
+        "Walmart",
+        "Microsoft",
+        "Costco",
+        "Uber",
+        "Uber"
+      ]
+    },
+    {
+      "id": "L",
+      "records": [
+        "MERCH-7695",
+        "MERCH-5324",
+        "MERCH-9147",
+        "MERCH-1280",
+        "MERCH-5005"
+      ]
+    },
+    {
+      "id": "M",
+      "records": [
+        "Philadelphia",
+        "San Diego",
+        "Los Angeles",
+        "Chicago",
+        "Philadelphia"
+      ]
+    },
+    {
+      "id": "N",
+      "records": [
+        "USA",
+        "USA",
+        "UK",
+        "Germany",
+        "USA"
+      ]
+    },
+    {
+      "id": "O",
+      "records": [
+        "Debit Card",
+        "Digital Wallet",
+        "Digital Wallet",
+        "Check",
+        "Credit Card"
+      ]
+    },
+    {
+      "id": "P",
+      "records": [
+        "American Express",
+        "American Express",
+        "Discover",
+        "American Express",
+        "Mastercard"
+      ]
+    },
+    {
+      "id": "Q",
+      "records": [
+        "6324********0970",
+        "7942********5263",
+        "4843********5730",
+        "7861********5757",
+        "4110********5873"
+      ]
+    },
+    {
+      "id": "R",
+      "records": [
+        "HFGCI0",
+        "4NM7XE",
+        "S16Y5I",
+        "FEAB7O",
+        "YTQ5AR"
+      ]
+    },
+    {
+      "id": "S",
+      "records": [
+        "false",
+        "false",
+        "false",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "id": "T",
+      "records": [
+        "1.6796641082373105",
+        "1.3093789735620383",
+        "0.824052435259413",
+        "0.6689028208493671",
+        "1.1655189811543052"
+      ]
+    },
+    {
+      "id": "U",
+      "records": [
+        "4.62",
+        "3.99",
+        "8.18",
+        "5.39",
+        "9.69"
+      ]
+    },
+    {
+      "id": "V",
+      "records": [
+        "0.0431",
+        "0.0192",
+        "0.0056",
+        "0.0612",
+        "0.0091"
+      ]
+    },
+    {
+      "id": "W",
+      "records": [
+        "34.2",
+        "68.26",
+        "0.27",
+        "39.44",
+        "23.53"
+      ]
+    },
+    {
+      "id": "X",
+      "records": [
+        "0.3",
+        "39.62",
+        "16.93",
+        "9.02",
+        "37.54"
+      ]
+    },
+    {
+      "id": "Y",
+      "records": [
+        "Completed",
+        "Completed",
+        "Completed",
+        "Completed",
+        "Completed"
+      ]
+    },
+    {
+      "id": "Z",
+      "records": [
+        "CUST-00000000",
+        "CUST-00000000",
+        "CUST-00000000",
+        "CUST-00000000",
+        "CUST-00000000"
+      ]
+    },
+    {
+      "id": "AA",
+      "records": [
+        "John Smith",
+        "John Smith",
+        "John Smith",
+        "John Smith",
+        "John Smith"
+      ]
+    },
+    {
+      "id": "AB",
+      "records": [
+        "69",
+        "49",
+        "35",
+        "34",
+        "63"
+      ]
+    },
+    {
+      "id": "AC",
+      "records": [
+        "Male",
+        "Male",
+        "Female",
+        "Female",
+        "Female"
+      ]
+    },
+    {
+      "id": "AD",
+      "records": [
+        "Teacher",
+        "Technician",
+        "Teacher",
+        "Analyst",
+        "Doctor"
+      ]
+    },
+    {
+      "id": "AE",
+      "records": [
+        "Medium",
+        "Medium",
+        "Medium",
+        "Medium",
+        "High"
+      ]
+    },
+    {
+      "id": "AF",
+      "records": [
+        "719",
+        "408",
+        "735",
+        "829",
+        "332"
+      ]
+    },
+    {
+      "id": "AG",
+      "records": [
+        "Credit Card",
+        "Loan",
+        "Savings",
+        "Checking",
+        "Checking"
+      ]
+    },
+    {
+      "id": "AH",
+      "records": [
+        "BR-5861",
+        "BR-6495",
+        "BR-3264",
+        "BR-2188",
+        "BR-5237"
+      ]
+    },
+    {
+      "id": "AI",
+      "records": [
+        "EMP-92855",
+        "EMP-11706",
+        "EMP-52763",
+        "EMP-83532",
+        "EMP-46010"
+      ]
+    },
+    {
+      "id": "AJ",
+      "records": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": "AK",
+      "records": [
+        "869",
+        "7959",
+        "8916",
+        "8046",
+        "4103"
+      ]
+    },
+    {
+      "id": "AL",
+      "records": [
+        "233.207.22.251",
+        "186.121.222.109",
+        "12.233.213.159",
+        "39.161.135.121",
+        "135.30.54.68"
+      ]
+    },
+    {
+      "id": "AM",
+      "records": [
+        "Mobile",
+        "Desktop",
+        "Mobile",
+        "Tablet",
+        "Desktop"
+      ]
+    },
+    {
+      "id": "AN",
+      "records": [
+        "Safari/75.0 (MacOS)",
+        "Edge/97.0 (Android)",
+        "Safari/79.0 (Windows)",
+        "Edge/75.0 (Android)",
+        "Chrome/79.0 (Windows)"
+      ]
+    },
+    {
+      "id": "AO",
+      "records": [
+        "26",
+        "84",
+        "54",
+        "0",
+        "78"
+      ]
+    }
+  ]
+}

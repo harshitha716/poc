@@ -1,0 +1,165 @@
+global:
+  service:
+    name: pantheon-stg
+
+projectName: zamp  # required
+default:
+  annotations:
+    all:
+      app.kv.io/env: stg
+  labels:
+    all:
+      service-name: pantheon-svc
+  resources:
+    request:
+      cpu: 200m
+      memory: 350Mi
+    limit:
+      memory: 500Mi
+  replicaCount: 1
+  image:
+    repository:
+    tag:
+    imagePullPolicy: Always
+  signoz:
+    enabled: false
+  configMaps:
+    injection:
+      enabled: false
+    volumeMount:
+      enabled: false
+  externalSecrets:
+    injection:
+      enabled: false
+    volumeMount:
+      enabled: true
+      secrets:
+      - data:
+          - fileName: ".env"
+            mountPath: "/.env"
+            secretKey: zamp-stg-sg-pantheon-secrets-env
+        refreshInterval: 1m
+        secretStoreName: gcp-secret-manager
+        secretName: env-secrets
+      - data:
+          - fileName: ".temporal-cert"
+            mountPath: "/.temporal-cert"
+            secretKey: zamp-stg-sg-temporal-cert
+        refreshInterval: 1h
+        secretStoreName: gcp-secret-manager
+        secretName: temporal-cert
+      - data:
+          - fileName: ".temporal-key"
+            mountPath: "/.temporal-key"
+            secretKey: zamp-stg-sg-temporal-cert-key
+        refreshInterval: 1h
+        secretStoreName: gcp-secret-manager
+        secretName: temporal-key
+
+
+deployment:
+  - name: "svc"
+    service:
+      type: ClusterIP
+      ports:
+      - port: 8000
+        name: api
+    serviceAccount:
+        create: true
+        annotations:
+          iam.gke.io/gcp-service-account: zamp-stg-sg-pantheon@staging-351109.iam.gserviceaccount.com
+    containers:
+      - name: "svc"
+        port: 8000
+        command:
+          - gunicorn
+        args:
+          - -k
+          - uvicorn.workers.UvicornWorker
+          - -c
+          - gunicorn_conf.py
+          - pantheon.app:app
+          - --bind
+          - 0.0.0.0:8000
+        healthcheck:
+          enabled: true
+          livenessProbe:
+            path : "/health/"
+            initialDelaySeconds : 10
+            periodSeconds: 20
+          readinessProbe:
+            path : "/health/"
+            initialDelaySeconds : 30
+            periodSeconds : 30
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 1
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
+
+  - name: "svc-v2"
+    service:
+      type: ClusterIP
+      ports:
+      - port: 8001
+        name: api
+    serviceAccount:
+        create: true
+        annotations:
+          iam.gke.io/gcp-service-account: zamp-stg-sg-pantheon@staging-351109.iam.gserviceaccount.com
+    containers:
+      - name: "svc-v2"
+        port: 8001
+        command:
+          - gunicorn
+        args:
+          - -k
+          - uvicorn.workers.UvicornWorker
+          - -c
+          - gunicorn_conf.py
+          - pantheon_v2.app:app
+          - --bind
+          - 0.0.0.0:8001
+        healthcheck:
+          enabled: true
+          livenessProbe:
+            path : "/health/"
+            initialDelaySeconds : 10
+            periodSeconds: 20
+          readinessProbe:
+            path : "/health/"
+            initialDelaySeconds : 30
+            periodSeconds : 30
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 1
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
+
+  - name: "svc-worker"
+    serviceAccount:
+        create: true
+        annotations:
+          iam.gke.io/gcp-service-account: zamp-stg-sg-pantheon@staging-351109.iam.gserviceaccount.com
+    containers:
+      - name: "svc-worker"
+        port: 8001
+        command:
+          - python
+        args:
+          - "pantheon_v2/core/temporal/workers.py"
+    resources:
+      request:
+        cpu: 200m
+        memory: 200Mi
+      limit:
+        cpu: 400m
+        memory: 400Mi
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 3
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80

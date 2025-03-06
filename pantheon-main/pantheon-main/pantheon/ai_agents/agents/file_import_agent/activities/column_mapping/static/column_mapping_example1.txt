@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Balance",
+    "type": "number",
+    "region": "C11:C221"
+  },
+  {
+    "name": "Credit",
+    "type": "number",
+    "region": "D11:D221"
+  },
+  {
+    "name": "Debit",
+    "type": "string",
+    "region": "E11:E221"
+  },
+  {
+    "name": "Net LC",
+    "type": "number",
+    "region": "F11:F221"
+  },
+  {
+    "name": "Date",
+    "type": "date",
+    "region": "G11:G221"
+  },
+  {
+    "name": "Date in format",
+    "type": "date",
+    "region": "H11:H221"
+  },
+  {
+    "name": "Posted Date",
+    "type": "date",
+    "region": "I11:I221"
+  },
+  {
+    "name": "Value Date",
+    "type": "date",
+    "region": "J11:J221"
+  },
+  {
+    "name": "Description",
+    "type": "string",
+    "region": "K11:K221"
+  },
+  {
+    "name": "Instrument Code",
+    "type": "string",
+    "region": "L11:L221"
+  },
+  {
+    "name": "External Ref No",
+    "type": "string",
+    "region": "M11:M221"
+  },
+  {
+    "name": "Transaction Code",
+    "type": "string",
+    "region": "N11:N221"
+  },
+  {
+    "name": "Tran Ref No",
+    "type": "string",
+    "region": "O11:O221"
+  },
+  {
+    "name": "Executed Branch Name",
+    "type": "string",
+    "region": "P11:P221"
+  },
+  {
+    "name": "Executed Branch Code",
+    "type": "number",
+    "region": "Q11:Q221"
+  },
+  {
+    "name": "Transaction Type",
+    "type": "string",
+    "region": "R11:R221"
+  },
+  {
+    "name": "Txn Type 2",
+    "type": "string",
+    "region": "S11:S221"
+  },
+  {
+    "name": "Balance",
+    "type": "number",
+    "region": "T11:T221"
+  },
+  {
+    "name": "Credit",
+    "type": "number",
+    "region": "U11:U221"
+  },
+  {
+    "name": "Debit",
+    "type": "string",
+    "region": "V11:V221"
+  },
+  {
+    "name": "150,157.30",
+    "type": "number",
+    "region": "W11:W221"
+  }
+]

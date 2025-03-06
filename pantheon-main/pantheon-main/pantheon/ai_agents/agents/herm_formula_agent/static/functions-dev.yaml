@@ -1,0 +1,354 @@
+functions:
+  - task: evaluate_filter_formula
+    syntax: "FILTERX(range, condition1, [condition2, ...])"
+    description: "Returns a filtered version of the source range, returning only rows or columns that meet the specified conditions."
+    examples:
+      - input: "FILTERX(A2:B10, A2:A10 > 5)"
+        output: "Filtered rows from A2:B10 where the values in A2:A10 are greater than 5"
+      - input: "FILTERX(C1:D20, C1:C20 = 'Yes')"
+        output: "Filtered rows from C1:D20 where the values in C1:C20 are 'Yes'"
+      - input: "FILTERX(E2:F15, E2:E15 < 10, F2:F15 >= 5)"
+        output: "Filtered rows from E2:F15 where the values in E2:E15 are less than 10 and the values in F2:F15 are greater than or equal to 5"
+      - input: "FILTERX(G1:H30, G1:G30 <> 'No', H1:H30 > 50)"
+        output: "Filtered rows from G1:H30 where the values in G1:G30 are not 'No' and the values in H1:H30 are greater than 50"
+
+  - task: evaluate_date_formula
+    syntax: "DATEX(year, month, day)"
+    description: "Converts a year, month, and day into a date. Each argument can be a number or a cell reference."
+    parameters:
+      year: "The year component of the date."
+      month: "The month component of the date."
+      day: "The day component of the date."
+    notes:
+      - "Inputs to DATEX must be numbers - if a string or a reference to a cell containing a string is provided, the #VALUE! error will be returned."
+      - "DATEX will silently recalculate numeric dates which fall outside of valid month or day ranges. For example, DATEX(1969,13,1), which specifies the illegal month 13, will create a date of 1/1/1970. Similarly, DATEX(1969,1,32), which specifies the non-existent 32nd day of January, will create a date of 2/1/1969."
+      - "DATEX will silently truncate decimal values input into the function, e.g. a month of 12.75 will be interpreted as 12."
+      - "Herm uses the 1900 date system. It counts the days since December 30, 1899 (not including December 30, 1899)."
+      - "Between 0 and 1899, Herm adds that value to 1900 to calculate the year. For example, DATEX(119,2,1) will create a date of 2/1/2019."
+      - "For years 1900 to 9999, Herm will use that value as the year. For example, DATEX(2019,1,2) will create a date of 1/2/2019."
+      - "For years less than 0 or greater than 10,000, Herm will return the #NUM! error value."
+    examples:
+      - input: "DATEX(1969, 7, 20)"
+        output: "1969-07-20"
+      - input: "DATEX(2024, 1, 1)"
+        output: "2024-01-01"
+
+  - task: evaluate_left_formula
+    syntax: "LEFTX(string, [number_of_characters])"
+    description: "Returns a substring from the beginning of a specified string."
+    parameters:
+      string: "The string from which the left portion will be returned."
+      number_of_characters: "[OPTIONAL - 1 by default] - The number of characters to return from the left side of string."
+    notes:
+      - "0 is a valid input for number_of_characters and will cause LEFT to return the empty string."
+      - "This doesn't take cell ranges as input. The input should be an individual cell."
+    examples:
+      - input: "LEFTX(A2, 2)"
+        output: "The first 2 characters from the string in cell A2"
+      - input: "LEFTX('lorem ipsum')"
+        output: "The first character from the string 'lorem ipsum'"
+      - input: "LEFTX('OpenAI', 4)"
+        output: "'Open'"
+      - input: "LEFTX('data', 3)"
+        output: "'dat'"
+
+  - task: evaluate_right_formula
+    syntax: "RIGHTX(string, [number_of_characters])"
+    description: "Returns a substring from the end of a specified string."
+    notes:
+      - "0 is a valid input for number_of_characters and will cause RIGHT to return the empty string."
+      - "This doesn't take cell ranges as input. The input should be an individual cell."
+    parameters:
+      string: "The string from which the right portion will be returned."
+      number_of_characters: "[OPTIONAL - 1 by default] - The number of characters to return from the right side of string."
+    examples:
+      - input: "RIGHTX(A2, 2)"
+        output: "The last 2 characters from the string in cell A2"
+      - input: "RIGHTX('lorem ipsum')"
+        output: "The last character from the string 'lorem ipsum'"
+      - input: "RIGHTX('OpenAI', 3)"
+        output: "'nAI'"
+
+  - task: evaluate_time_formula
+    syntax: "TIMEX(hour, minute, second)"
+    description: "Converts an hour, minute, and second into a time."
+    notes:
+      - "Inputs to TIMEX must be numbers - if a string or a reference to a cell containing a string is provided, the #VALUE! error will be returned."
+      - "TIMEX will silently recalculate numeric time values which fall outside of valid ranges. For example, TIME(25,0,0), which specifies the illegal hour 25, will create a time of 1:00 AM. Similarly, TIME(12,0,60), which specifies the illegal 61st second of a minute (:00 being the first second), will create a time of 12:01:00."
+      - "TIMEX will silently truncate decimal values input into the function, e.g. an hour of 12.75 will be interpreted as 12."
+    parameters:
+      hour: "The hour component of the time."
+      minute: "The minute component of the time."
+      second: "The second component of the time."
+    examples:
+      - input: "TIMEX(11, 40, 59)"
+        output: "11:40:59"
+      - input: "TIMEX(A2, B2, C2)"
+        output: "Time constructed from the values in cells A2, B2, and C2"
+      - input: "TIMEX(23, 59, 59)"
+        output: "23:59:59"
+
+  - task: evaluate_text_formula
+    syntax: "TEXTX(number, format)"
+    description: "Converts a number into text according to a specified format."
+    notes:
+      - "The format argument to TEXTX cannot contain an asterisk (*)."
+      - "TEXTX does not support the ? pattern in Google Sheets."
+      - "TEXTX does not support fractional format patterns."
+      - "This doesn't take cell ranges as input. The input should be an individual cell."
+    parameters:
+      number: "The number, date, or time to format."
+      format: "The pattern by which to format the number, enclosed in quotation marks."
+    examples:
+      - input: "TEXTX(1.23, '$0.00')"
+        output: "'$1.23'"
+      - input: "TEXTX(A2, '#.###')"
+        output: "The number in cell A2 formatted as text according to the format '#.###'"
+      - input: "TEXTX(1234.567, '#,###.00')"
+        output: "'1,234.57'"
+      - input: "TEXTX(0.456, '0.00%')"
+        output: "'45.60%'"
+
+  - task: evaluate_ifs_formula
+    syntax: "IFSX(condition1, value1, condition2, value2, ...)"
+    description: "Evaluates multiple conditions and returns a value that corresponds to the first true condition. The input arguments should be in pairs of condition and value always."
+    parameters:
+      condition1: "The first condition to be evaluated. This can be a boolean, a number, an array, or a reference to any of those."
+      value1: "The returned value if condition1 is TRUE."
+      condition2: "Additional condition if the first one is evaluated to be false."
+      value2: "Value for condition2 if it is TRUE."
+    notes:
+      - "If all conditions are FALSE, #N/A is returned."
+      - "IFSX can take up to 127 pairs of conditions and values."
+      - "There is no concept of ELSE in this formula."
+    validation_rules:
+      - "Argument count must be even."
+      - "Minimum 2 arguments."
+      - "Maximum 254 arguments."
+    examples:
+      - input: "IFSX(A1 > 90, 'A', A1 > 80, 'B', A1 > 70, 'C')"
+        output: "Returns 'A' if A1 is greater than 90, 'B' if A1 is greater than 80 but not greater than 90, 'C' if A1 is greater than 70 but not greater than 80"
+      - input: "IFSX({A1:A5} > 3, 'bigger', {A1:A5} = 3, 'equal')"
+        output: "Returns an array where each element corresponds to the evaluation of the respective element in {A1:A5}: 'bigger' if the element is greater than 3, 'equal' if the element is equal to 3"
+      - input: "IFSX(B2 = 'yes', 'Approved', B2 = 'no', 'Denied', TRUE, 'Pending')"
+        output: "Returns 'Approved' if B2 is 'yes', 'Denied' if B2 is 'no', and 'Pending' if neither condition is met"
+      - input: "IFSX(C1 < 0, 'Negative', C1 = 0, 'Zero', C1 > 0, 'Positive')"
+        output: "Returns 'Negative' if C1 is less than 0, 'Zero' if C1 is 0, and 'Positive' if C1 is greater than 0"
+
+  - task: evaluate_value_formula
+    syntax: "VALUEX(text)"
+    description: "Converts a string in any of the date, time, or number formats that Herm understands into a number."
+    parameters:
+      text: "The string containing the value to be converted."
+    notes:
+      - "VALUE returns a pure number even if the argument to the function was interpreted as a date. For example, =VALUE('01/01/2012') by default will be displayed as 40909."
+      - "This doesn't take cell ranges as input. The input should be an individual cell."
+    examples:
+      - input: "VALUEX('7/20/1969')"
+        output: "The numeric representation of the date 7/20/1969"
+      - input: "VALUEX('12:00:00')"
+        output: "The numeric representation of the time 12:00:00"
+      - input: "VALUEX('$1,234.56')"
+        output: 1234.56
+
+  - task: evaluate_to_text_formula
+    syntax: "TO_TEXTX(value)"
+    description: "Converts a provided numeric value to a text value."
+    parameters:
+      value: "The argument or reference to a cell to be converted to text."
+    notes:
+      - "If value is a number or a reference to a cell containing a numeric value, TO_TEXTX returns value as a string, with existing formatting retained. Currencies appear as currencies, decimals as decimals, percentages as percentages, and dates as dates."
+      - "If value is not a number or a reference to a cell containing a numeric value, TO_TEXTX returns value without modification."
+      - "This doesn't take cell ranges as input. The input should be an individual cell."
+    examples:
+      - input: "TO_TEXTX(A2)"
+        output: "The text representation of the value in cell A2"
+      - input: "TO_TEXTX(123.45)"
+        output: "'123.45'"
+      - input: "TO_TEXTX('Hello')"
+        output: "'Hello'"
+
+  - task: evaluate_concatenate_formula
+    syntax: "CONCATENATEX(string1, [string2, ...])"
+    description: "Appends strings to one another."
+    parameters:
+      string1: "The first string to be concatenated."
+      string2: "[OPTIONAL] Additional strings to be concatenated."
+    examples:
+      - input: "CONCATENATEX('Welcome', ' ', 'to', ' ', 'Sheets!')"
+        output: "'Welcome to Sheets!'"
+      - input: "CONCATENATEX(A1, A2, A3)"
+        output: "The concatenation of the values in cells A1, A2, and A3"
+      - input: "CONCATENATEX(A2:B7)"
+        output: "The concatenation of all values in the range A2:B7"
+
+  - task: evaluate_datevalue_formula
+    syntax: "DATEVALUEX(date_string)"
+    description: "Converts a provided date string in a known format to a date value."
+    parameters:
+      date_string: "The string representing the date. Understood formats include any date format which is normally autoconverted when entered, without quotation marks, directly into a cell."
+    notes:
+      - "The input to DATEVALUEX must be a string - if a number or cell reference to a cell containing a number is provided, the #VALUE! error will be returned."
+    examples:
+      - input: "DATEVALUEX('1969-7-20')"
+        output: "25404 (This can be converted to appropriate date format by using format column)"
+      - input: "DATEVALUEX('7/20/1969')"
+        output: "25404 (This can be converted to appropriate date format by using format column)"
+      - input: "DATEVALUEX(A2)"
+        output: "The int format of the date in cell A2"
+
+  - task: evaluate_head_formula
+    syntax: "INDEX(range, row)"
+    description: "Returns the first n rows from the provided range."
+    examples:
+      - input: "INDEX(A1:B10, 1, 0)"
+        output: "First row of the range A1:B10"
+      - input: "INDEX(A1:B10, 2, 0)"
+        output: "First two rows of the range A1:B10"
+
+  - task: evaluate_tail_formula
+    syntax: "INDEX(range, ROWS(range) - n + 1)"
+    description: "Returns the last n rows from the provided range."
+    examples:
+      - input: "INDEX(A1:B10, ROWS(A1:B10) - 1 + 1)"
+        output: "Last row of the range A1:B10"
+      - input: "INDEX(A1:B10, ROWS(A1:B10) - 2 + 1)"
+        output: "Last two rows of the range A1:B10"
+
+  - task: evaluate_join_formula
+    syntax: "VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])"
+    description: "Joins with another range."
+    examples:
+      - input: "VLOOKUP(A2, B2:C10, 2, FALSE)"
+        output: "Join based on the lookup value in A2 and the table range B2:C10"
+
+  - task: evaluate_with_column_formula
+    syntax: "ARRAYFORMULA(column1 + column2)"
+    description: "Adds or replaces a column."
+    examples:
+      - input: "ARRAYFORMULA(B2:B10 + 10)"
+        output: "Add 10 to each value in column B"
+
+  - task: evaluate_sum_formula
+    syntax: "SUM(value1, [value2, ...])"
+    description: "Sum all the provided values. Each value can be a number, a range of cells (e.g., A2:A100), or a mix of both."
+    examples:
+      - input: "SUM(1, 2, 3, 4, 5)"
+        output: 15
+      - input: "SUM(10, 20, 30)"
+        output: 60
+      - input: "SUM(A2:A100)"
+        output: "Sum of all cells in the range A2 to A100"
+      - input: "SUM(A2:A5, 10, B2:B5)"
+        output: "Sum of all cells in the range A2 to A5, 10, and all cells in the range B2 to B5"
+
+  - task: evaluate_mean_formula
+    syntax: "AVERAGE(value1, [value2, ...])"
+    description: "Computes the mean of the provided values."
+    examples:
+      - input: "AVERAGE(1, 2, 3, 4, 5)"
+        output: 3
+      - input: "AVERAGE(A2:A100)"
+        output: "Mean of all cells in the range A2 to A100"
+
+  - task: evaluate_max_formula
+    syntax: "MAX(value1, [value2, ...])"
+    description: "Computes the maximum of the provided values."
+    examples:
+      - input: "MAX(1, 2, 3, 4, 5)"
+        output: 5
+      - input: "MAX(A2:A100)"
+        output: "Maximum value in the range A2 to A100"
+
+  - task: evaluate_sort_formula
+    syntax: "SORT(range, sort_column, is_ascending)"
+    description: "Sorts the range by specified columns."
+    examples:
+      - input: "SORT(A1:B10, 2, TRUE)"
+        output: "Sorts the range A1:B10 by the second column in ascending order"
+
+  - task: evaluate_melt_formula
+    syntax: "FLATTEN(range)"
+    description: "Converts a range from wide to long format."
+    examples:
+      - input: "FLATTEN(A1:C3)"
+        output: "Flatten the range A1:C3 into a single column"
+
+  - task: evaluate_with_columns_formula
+    syntax: "ARRAYFORMULA(expression1, expression2, ...)"
+    description: "Adds or replaces multiple columns."
+    examples:
+      - input: "ARRAYFORMULA({B2:B10 + 10, LEN(A2:A10)})"
+        output: "Add 10 to each value in column B and compute the length of each value in column A"
+
+  - task: evaluate_to_uppercase_formula
+    syntax: "UPPER(text)"
+    description: "Converts strings to uppercase."
+    examples:
+      - input: "UPPER(A2:A10)"
+        output: "Convert each value in column A to uppercase"
+
+  - task: evaluate_year_formula
+    syntax: "YEAR(date)"
+    description: "Extracts the year from datetime."
+    examples:
+      - input: "YEAR(A2:A10)"
+        output: "Extract the year from each date in column A"
+
+  - task: evaluate_month_formula
+    syntax: "MONTH(date)"
+    description: "Extracts the month from datetime."
+    examples:
+      - input: "MONTH(A2:A10)"
+        output: "Extract the month from each date in column A"
+
+  - task: evaluate_select_formula
+    syntax: "QUERY(range, 'SELECT column')"
+    description: "Selects columns from the provided range."
+    examples:
+      - input: "QUERY(A1:B10, 'SELECT A')"
+        output: "All rows from column A in the range A1:B10"
+      - input: "QUERY(A1:C10, 'SELECT B, C')"
+        output: "All rows from columns B and C in the range A1:C10"
+
+  - task: evaluate_groupby_formula
+    syntax: "QUERY(range, 'SELECT column, COUNT(column) GROUP BY column')"
+    description: "Groups the range by one or more columns and performs aggregation."
+    examples:
+      - input: "QUERY(A1:B10, 'SELECT B, COUNT(A) GROUP BY B')"
+        output: "Grouped rows by column B with count of column A"
+
+  - task: evaluate_rename_formula
+    syntax: "REPLACE(column, search_text, replace_text)"
+    description: "Renames columns."
+    examples:
+      - input: "REPLACE(A1:A10, 'old_name', 'new_name')"
+        output: "Rename column A from 'old_name' to 'new_name'"
+
+  - task: evaluate_drop_formula
+    syntax: "QUERY(range, 'SELECT * SKIP')"
+    description: "Drops the first n rows."
+    examples:
+      - input: "QUERY(A1:B10, 'SELECT * SKIP 1')"
+        output: "Drops the first row from the range A1:B10"
+
+  - task: evaluate_with_column_renamed_formula
+    syntax: "REPLACE(column, search_text, replace_text)"
+    description: "Renames a single column."
+    examples:
+      - input: "REPLACE(A1:A10, 'age', 'years')"
+        output: "Rename column A from 'age' to 'years'"
+
+  - task: evaluate_contains_formula
+    syntax: "REGEXMATCH(text, regular_expression)"
+    description: "Checks if strings contain a pattern."
+    examples:
+      - input: "REGEXMATCH(A2:A10, 'A')"
+        output: "Checks if each value in column A contains the letter 'A'"
+
+  - task: evaluate_pivot_formula
+    syntax: "QUERY(range, 'PIVOT ...')"
+    description: "Pivots a range from long to wide format."
+    examples:
+      - input: "QUERY(A1:C10, 'PIVOT B GROUP BY A')"
+        output: "Pivot the range A1:C10 with values in column B grouped by column A"

@@ -1,0 +1,66 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Temporal Worker",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": [
+        "--watch",
+        "**/*.py",
+        "--signal",
+        "SIGTERM",
+        "--exec",
+        "python"
+      ],
+      "program": "${workspaceFolder}/pantheon_v2/core/temporal/workers.py",
+      "restart": true,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "StartTemporalServer"
+    },
+    {
+      "name": "FastAPI Web Server",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "pantheon_v2/app.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "python": "${command:python.interpreterPath}",
+      "justMyCode": false
+    },
+    {
+      "name": "Run Integration Tests",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "pantheon_v2/tests/integration_tests.py",
+      "args": [
+        "${workspaceFolder}/pantheon_v2/tests/ca.pem",
+        "${workspaceFolder}/pantheon_v2/tests/key.pem",
+        "zamp-stg-general.dkqth",
+        "zamp-stg-general.dkqth.tmprl.cloud:7233"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "python": "${command:python.interpreterPath}",
+    },
+    {
+      "name": "Run Current File's Unit Tests",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "${file}",
+        "--maxfail=1",
+        "--disable-warnings"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    },
+  ]
+}

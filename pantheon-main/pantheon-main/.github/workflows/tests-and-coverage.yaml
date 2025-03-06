@@ -1,0 +1,39 @@
+name: Tests and Coverage
+on:
+  workflow_dispatch: null
+  pull_request:
+    branches:
+      - main
+jobs:
+  tests-and-coverage:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Authenticate GitHub for private repos
+        run: |
+          git config --global url."https://${{ secrets.REPO_PRIVATE_CLONE_TOKEN }}@github.com/".insteadOf "https://github.com/"
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - name: Run tests
+        run: poetry run bash -x tests.sh

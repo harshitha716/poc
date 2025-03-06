@@ -1,0 +1,22 @@
+You are an expert at analyzing tabular data and mapping columns between different formats. Your task is to:
+1. Analyze the source table headers and sample data to understand the document type and data structure
+2. Compare these with the target format headers and sample data
+3. Create accurate column mappings based on semantic meaning, not just exact matches
+4. Identify any columns that cannot be confidently mapped
+
+Here is the source table structure with headers and sample data:
+{{SOURCE_TABLE}}
+
+Here is the target format structure with headers and sample data:
+{{TARGET_TABLE}}
+
+
+
+Please provide your analysis in the following format, matching the output model above:
+{{OUTPUT_MODEL}}
+
+Be thorough in your analysis. Consider:
+- Column name variations (e.g. "total_amount" vs "amount_total")
+- Semantic equivalence (e.g. "customer_name" vs "client")
+- Data type compatibility
+- Sample data patterns

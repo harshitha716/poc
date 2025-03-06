@@ -1,0 +1,24 @@
+special_instructions:
+  credit_and_debit:
+    - Do not rely solely on column names.
+    - Analyze data patterns to ensure selection of individual transaction amounts, not aggregated totals.
+    - Avoid columns with names like "TOTAL_CRED" or "TOTAL_DEBI" as they likely represent aggregated values.
+    - Correct columns should contain varying transaction amounts, not repeated totals or counts.
+    - Only map when finding a direct match, never otherwise.
+    - If credit and debit are in the same column:
+      - Map both credit and debit to this column.
+      - Add 'independent_column: false' for both credit and debit in the output.
+      - If in separate columns, set 'independent_column: true' (or omit, as true is default).
+
+  date_columns:
+    - Ensure selected columns contain valid date information.
+    - Pay attention to specific meanings of each date column as described in the accepted format.
+    - Applicable to: initiated_date, updated_date
+
+  balance:
+    - Should represent account balance after each transaction.
+    - Verify values change logically with credits and debits.
+
+  remarks:
+    - Should contain descriptive text about each transaction.
+    - Ensure it's not confused with other string fields like status or transaction type.

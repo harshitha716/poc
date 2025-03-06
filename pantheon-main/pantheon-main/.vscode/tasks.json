@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "StartTemporalServer",
+      "type": "shell",
+      "command": "if ! curl -s http://localhost:7233/health > /dev/null; then echo 'Starting Temporal server...' && (temporal server start-dev > /tmp/temporal.log 2>&1 &) && sleep 2 && echo 'Temporal server started in background. Logs at /tmp/temporal.log' && echo 'Keeping terminal open...' && tail -f /tmp/temporal.log; else echo 'Temporal server is already running'; fi",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "focus": false,
+        "clear": false
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": ".",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "Starting Temporal server...",
+            "endsPattern": "Temporal server started in background"
+          }
+        }
+      ]
+    }
+  ]
+}

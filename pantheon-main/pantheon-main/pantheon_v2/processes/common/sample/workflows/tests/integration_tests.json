@@ -1,0 +1,24 @@
+{
+    "suite_name": "sample",
+    "tests": [
+        {
+            "workflow_name": "SampleWorkflow",
+            "task_queue": "default-queue",
+            "input": {
+                "input_string": "test"
+            },
+            "expected_output": {
+                "output_string": "You have successfully run the workflow with input test and signal signal"
+            },
+            "actions": [
+                {
+                    "action_type": "signal_workflow",
+                    "action_name": "sample_signal",
+                    "action_input": {
+                        "message": "signal"
+                    }
+                }
+            ]
+        }
+    ]
+}

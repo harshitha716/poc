@@ -1,0 +1,150 @@
+transformations:
+  - task: add_new_column
+    name: ADD_COLUMN
+    syntax: ADD_COLUMN(column_index, no_of_columns)
+    description: Adds number of columns after the specified column name.
+    parameters:
+      - name: column_index
+        type: string
+        description: The index name of the column after which the new columns are to be added.
+      - name: no_of_columns
+        type: integer
+        description: The number of columns to be added.
+    notes:
+      - The column_name must be a text of the column index. Eg A, B, C, etc.
+      - The number of columns must be a positive integer.
+      - The columns are always added after the specified index.
+      - if nothing is specified, please add the column at the end of the sheet.
+      - To add the column at start, specify the column_name as empty string.
+      - This operation doesnt add the column with header, it just adds the column. The header can be updated using UPDATE_CELL.
+    examples:
+      - input: ADD_COLUMN(B, 2)
+        output: Adds two new columns just after the column B.
+    returns:
+      - name: new_column_index
+        description: The index of the newly added column.
+      - name: total_columns
+        description: The updated total number of columns in the sheet.
+
+  - task: remove_column
+    name: REMOVE_COLUMN
+    syntax: REMOVE_COLUMN(column_index)
+    description: Removes the column at the specified column name.
+    parameters:
+      - name: column_index
+        type: string
+        description: The column_index of the column to be removed.
+    notes:
+      - Each value argument must be a text of the column name.
+    examples:
+      - input: REMOVE_COLUMN(C)
+        output: Removes the column at the specified column_name which is C.
+    returns:
+      - name: removed_column_index
+        description: The index of the removed column
+      - name: total_columns
+        description: The updated total number of columns in the sheet
+
+  - task: add_new_row
+    name: ADD_ROW
+    syntax: ADD_ROW(row_index, no_of_rows)
+    description: Adds the row at the specified row index.
+    parameters:
+      - name: row_index
+        type: string
+        description: The index of the row after which new rows are added.
+      - name: no_of_rows
+        type: integer
+        description: The number of rows to be added.
+    notes:
+      - The row index must be a positive integer.
+      - The number of rows must be a positive integer.
+      - The row index is 1-based index.
+      - The rows are always added after the specified index.
+      - if nothing is specified, please add the row at the end of the sheet.
+      - To add the row at start, specify the row_index as 0.
+    examples:
+      - input: ADD_ROW('5', 2)
+        output: Adds two new rows after 5th index.
+    returns:
+      - name: new_row_index
+        description: The index of the newly added row
+      - name: total_rows
+        description: The updated total number of rows in the sheet
+
+  - task: remove_row
+    name: REMOVE_ROW
+    syntax: REMOVE_ROW(row_index)
+    description: Removes the row at the specified row index.
+    parameters:
+      - name: row_index
+        type: string
+        description: The index of the row to be removed.
+    examples:
+      - input: REMOVE_ROW(5)
+        output: Removes the row at the specified row index which is 5.
+    returns:
+      - name: removed_row_index
+        description: The index of the removed row
+      - name: total_rows
+        description: The updated total number of rows in the sheet
+
+  - task: update_cell
+    name: UPDATE_CELL
+    syntax: UPDATE_CELL(cell_index, new_value)
+    description: Updates the cell at the specified cell index with the new value.
+    parameters:
+      - name: cell_index
+        type: string
+        description: The index of the cell to be updated.
+      - name: new_value
+        type: string
+        description: The new value to be updated in the cell. This can be the formula as well.
+    notes:
+      - The cell index must be in the format of column index followed by row index. Eg A1, B2, C3, etc.
+      - If a formula using @ nomenclature (e.g., SUM(A@,B@)) is used with UPDATE_CELL, it will only be applied to the single specified cell.
+      - Avoid using @ nomenclature in formulas with UPDATE_CELL
+      - For applying a formula with @ nomenclature to multiple rows, use APPLY_VALUE_TO_COLUMN instead.
+    examples:
+      - input: UPDATE_CELL(A1, 10)
+        output: Updates the cell at the specified cell index which is A1 with the new value 10.
+      - input: UPDATE_CELL(A1, =SUM(A1,A3))
+        output: Updates the cell at the specified cell index which is A1 with the formula =SUM(A1,A3).
+      - input: UPDATE_CELL(C1, =SUM(A@,B@))
+        output: Updates only cell C1 with the sum of A1 and B1.
+    returns:
+      - name: updated_cell_index
+        description: The index of the updated cell
+      - name: new_value
+        description: The new value of the cell after the update
+
+  - task: apply_value_to_column
+    name: APPLY_VALUE_TO_COLUMN
+    syntax: APPLY_VALUE_TO_COLUMN(column_name, value, row_range_start, row_range_end)
+    description: Applies the value to the entire column within the specified range.
+    parameters:
+      - name: column_index
+        type: string
+        description: The name of the column to which the value is to be applied.
+      - name: value
+        type: string
+        description: The value to be applied to the entire column.
+      - name: row_range_start
+        type: integer
+        description: The starting index of the row range.
+      - name: row_range_end
+        type: integer
+        description: The ending index of the row range.
+    notes:
+      - "Use this function for row-level computations across a range of rows"
+      - "Ideal for applying formulas that need to operate on each row individually"
+      - "Row range (start_row to end_row) is meaningful only when using @ notation in formulas"
+      - "With @ notation, the formula is applied individually to each row in the specified range. @ gets replaced with the row index."
+      - "Without @ notation, the same value or formula is copied to all cells in the range"
+      - "For column-wide aggregations, use standard range notation (e.g., A:A, B:B) instead"
+      - If the formula doesn't contain @ references, consider using UPDATE_CELL for individual cells instead.
+    examples:
+      - input: APPLY_VALUE_TO_COLUMN(C, SUM(A@,B@), 1, 10)
+        output: Applies SUM(A@,B@) to each row from 1 to 10 in column C.
+      - input: APPLY_VALUE_TO_COLUMN("D", "SUM(A1:B1)", 1, 10)
+        output: Copies SUM(A1:B1) to cells D1 through D10 without changing cell references

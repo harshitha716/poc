@@ -1,0 +1,48 @@
+services:
+  pantheon:
+    image: pantheon-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    environment:
+      - TEMPORAL_HOST=temporal:7233
+      - GOOGLE_APPLICATION_CREDENTIALS=/gcp/creds.json
+    volumes:
+      - ./pantheon_v2:/opt/pysetup/pantheon_v2
+      - $HOME/.config/gcloud/application_default_credentials.json:/gcp/creds.json
+    command: uvicorn pantheon_v2.app:app --host 0.0.0.0 --port 8000 --reload --reload-dir pantheon_v2
+
+    depends_on:
+      - temporal
+
+  worker:
+    image: pantheon-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env
+    environment:
+      - TEMPORAL_HOST=temporal:7233
+      - GOOGLE_APPLICATION_CREDENTIALS=/gcp/creds.json
+    volumes:
+      - ./pantheon_v2:/opt/pysetup/pantheon_v2
+      - $HOME/.config/gcloud/application_default_credentials.json:/gcp/creds.json
+    command: watchfiles --filter python "python -m pantheon_v2.core.temporal.workers" pantheon_v2
+    depends_on:
+      - temporal
+
+  temporal:
+    build:
+      context: .
+      dockerfile: Dockerfile.temporal
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+
+volumes:
+  db_data:

@@ -1,0 +1,25 @@
+name: Development Branch Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 18 * * *"
+
+jobs:
+  sync-dev:
+    name: Sync development branch with main
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout repository on : ${{ github.REF }}"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: sync
+        name: Sync development branch with main
+        run: |
+          git checkout main
+          git pull origin main
+          git checkout development
+          git reset main --hard
+          git push origin development -f

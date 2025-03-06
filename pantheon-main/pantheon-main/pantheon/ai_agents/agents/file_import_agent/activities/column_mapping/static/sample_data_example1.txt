@@ -1,0 +1,21 @@
+Balance," 8,884,176.56"," 9,084,608.73"," 9,533,439.70"," 9,931,097.10"," 9,931,445.10"," 9,931,527.89"," 9,933,804.81"," 9,933,096.41"," 9,933,549.39"
+Credit,"177,138.19","200,432.17","448,830.97","397,657.40",348.00,82.79,"2,276.92",,452.98
+Debit,,,,,,,,708.40,
+Net LC,177138.19,200432.17,448830.97,397657.4,348,82.79,2276.92,-708.4,452.98
+Date,02/04/2023,02/04/2023,02/04/2023,03/04/2023,03/04/2023,03/04/2023,03/04/2023,04/04/2023,04/04/2023
+Date in format,2-Apr-23,2-Apr-23,2-Apr-23,3-Apr-23,3-Apr-23,3-Apr-23,3-Apr-23,4-Apr-23,4-Apr-23
+Posted Date,02/04/2023,02/04/2023,02/04/2023,03/04/2023,03/04/2023,03/04/2023,03/04/2023,04/04/2023,04/04/2023
+Value Date,31/03/2023,01/04/2023,02/04/2023,03/04/2023,03/04/2023,03/04/2023,03/04/2023,04/04/2023,04/04/2023
+Description,"nullMID: 3760642003, BATCH NUMBER: 00036903","nullMID: 3760642003, BATCH NUMBER: 00036904","nullMID: 3760642003, BATCH NUMBER: 00036905","nullMID: 3760642003, BATCH NUMBER: 00036906","IPN تحويل شبكةInstant Transfer from NOURHAN SAMIR ABDELHAMID, Trx ID:e03ee0aa -","nullMID: 3760642003, BATCH NUMBER: 00036903","nullMID: 3760642003, BATCH NUMBER: 00036905","nullMID: 3760642003, BATCH NUMBER: 00036903","nullMID: 3760642003, BATCH NUMBER: 00036904"
+Instrument Code,,,,,,,,,
+External Ref No,,,,,,74e1c47f230403114753,,,
+Transaction Code,CRD,CRD,CRD,CRD,IPC,CRD,CRD,CRD,CRD
+Tran Ref No,100kp73092497769,100kp78092239676,100kp85092360746,100kp00093332862,495IPNN230938348,100kp10093256081,100kp10093262080,100kp12094283931,100kp12094283930
+Executed Branch Name,المركز الرئيسى,المركز الرئيسى,المركز الرئيسى,المركز الرئيسى,قطاع التجزئة المصرفية,المركز الرئيسى,المركز الرئيسى,المركز الرئيسى,المركز الرئيسى
+Executed Branch Code,100,100,100,100,495,100,100,100,100
+Transaction Type,Collections - Payment Gateway,Collections - Payment Gateway,Collections - Payment Gateway,Collections - Payment Gateway,Collections - Customer Direct Payment,Collections - Payment Gateway,Collections - Payment Gateway,Collections - Payment Gateway,Collections - Payment Gateway
+Txn Type 2,PG Collections,PG Collections,PG Collections,PG Collections,Manual Collections (DCA),PG Collections,PG Collections,PG Collections,PG Collections
+Balance,"  287,770.84 ","  294,263.12 ","  308,801.38 ","  321,682.06 ","  321,693.33 ","  321,696.01 ","  321,769.76 ","  321,746.82 ","  321,761.49 "
+Credit,"  5,737.75 ","  6,492.28 ","  14,538.26 ","  12,880.68 ",  11.27 ,  2.68 ,  73.75 ,  -   ,  14.67
+Debit,  -   ,  -   ,  -   ,  -   ,  -   ,  -   ,  -   ,  22.95 ,  -
+Net LC,"  5,737.75 ","  6,492.28 ","  14,538.26 ","  12,880.68 ",  11.27,  2.68,  73.75,- 22.95,  14.67

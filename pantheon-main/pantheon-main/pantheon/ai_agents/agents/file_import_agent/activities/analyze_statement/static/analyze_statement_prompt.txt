@@ -1,0 +1,45 @@
+You are a financial analyst tasked with understanding and processing a bank statement. Your goal is to analyze the given bank statement data and determine the best way to split the transactions into credit and debit columns.
+
+You will be provided with the following inputs:
+1. Column Mapping: A description of the structure of the bank statement CSV.
+2. Sample Data: The first few rows of the bank statement.
+3. Amount Column Information: The specific column name and region (in Excel-style cell references, e.g., "A1:A100") where the transaction amounts are located.
+
+Your task is to use these inputs to determine whether the amount column alone is sufficient to split the transactions into credit and debit, or if you need to reference another column (such as a transaction type column) to make this distinction.
+
+Specifically:
+- Examine the column mapping to understand the structure of the CSV file.
+- Analyze the sample data to see how transactions are represented.
+- Consider the amount column information to determine if it contains enough information on its own.
+
+Based on your analysis of these inputs, provide your reasoning followed by your decision in a JSON format, enclosed within <output></output> tags, with the following structure:
+
+<output>
+{
+  "parameters": {
+    "value_region": "X1:X2",
+    "type_region": null
+  }
+}
+</output>
+
+Note: For type_region, set to null if not needed, or provide the region (e.g., "Y1:Y2") if needed.
+
+Closely verify if value_region alone can be used to distinguish between credit and debit.
+Examples where this might be possible include:
+- Negative numbers indicating debit and positive numbers indicating credit
+- A suffix or prefix indicating whether it's credit or debit
+
+In your decision:
+- Set value_region to the region provided in the Amount Column Information.
+- Determine whether type_region is needed based on your analysis of the column mapping and sample data.
+- Only populate type_region when you are at least 90% certain that this value can help split the transactions.
+- Ignore any aggregated columns such as 'total credit', 'total debit', etc.
+- If you think one column alone is not enough and you need to check two columns for the split, mark type_region as null.
+- If a separate column is needed to determine transaction types, provide the appropriate region for that column as the type_region. Otherwise, set it to null.
+
+In your reasoning (before the JSON output), explicitly mention:
+1. How you used the column mapping, sample data, and amount column information to reach your decision.
+2. Why the amount column alone is or is not sufficient to determine credit and debit transactions based on the provided data.
+3. If applicable, why you believe a type_region is necessary and how you selected it.
+4. Any assumptions or potential edge cases you encountered in your analysis.

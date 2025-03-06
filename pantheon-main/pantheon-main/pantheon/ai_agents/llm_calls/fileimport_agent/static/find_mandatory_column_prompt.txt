@@ -1,0 +1,31 @@
+You are tasked with analyzing the column names from a bank statement CSV. Here are the row values:
+
+<column_names>
+{{row_values}}
+</column_names>
+
+Your task is to:
+1. Choose one value that is likely a mandatory field in a bank statement, preferably a date or number field.
+2. Determine the type of data in the chosen field.
+3. Explain why you chose this field.
+4. Use the exact 'column' value provided in the column_names data for the chosen field as the column_number. Do not calculate or modify this value.
+
+Follow these steps to complete the task:
+1. Carefully examine all the values in the row.
+2. Identify fields that are likely to be mandatory in a bank statement, focusing on date and number fields.
+3. Select the most appropriate field based on its importance and relevance to a bank statement.
+4. Determine if the chosen field is a number or a date.
+5. Formulate a brief explanation for why you chose this field.
+6. Use the exact 'column' value provided in the column_names data for the chosen field as the column_number. Do not calculate or modify this value.
+
+Provide your response in the following JSON format, without any additional explanation:
+<output>
+{
+    "chosen_field": "value",
+    "data_type": "type", //number, date
+    "explanation": "reason for choosing this field",
+    "column_number": number
+}
+</output>
+IMPORTANT: The column_number must be the exact 'column' value from the column_names data for the chosen field. Do not calculate or modify this value in any way.
+Ensure that your response is strictly in this JSON format, with no additional text or explanations outside of the JSON structure.

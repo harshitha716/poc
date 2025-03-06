@@ -1,0 +1,553 @@
+functions:
+  - task: evaluate_sum_formula
+    syntax: SUM(value1, [value2, ...])
+    description: Returns the sum of a series of numbers and/or cells.
+    parameters:
+      - value1:
+        description: The first number or range to add together.
+      - value2:
+        description: "[OPTIONAL] Additional numbers or ranges to add to value1."
+    notes:
+      - If only a single number for value1 is supplied, SUM returns value1.
+      - Using ColumnLetter@ applies the formula to the entire column but taking the values of each row. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: SUM(A2:A100)
+        output: Sum of all cells in the range A2 to A100
+      - input: SUM(1,2,3,4,5)
+        output: 15
+      - input: SUM(1,2,A2:A50)
+        output: Sum of 1, 2, and all cells in the range A2 to A50
+      - input: SUM(A@,B@,10)
+        output: When placed in column C, this sums values from columns A and B, plus 10, for each row (e.g., C2 = A2+B2+10, C3 = A3+B3+10, etc.)
+
+  - task: evaluate_min_formula
+    syntax: MIN(value1, [value2, ...])
+    description: Returns the minimum value in a numeric dataset.
+    parameters:
+      - value1:
+        description: The first number or range to consider for the minimum value.
+      - value2:
+        description: "[OPTIONAL] Additional numbers or ranges to consider for the minimum value."
+    notes:
+      - Each value argument must be a cell, a number, or a range containing numbers.
+      - Cells without numbers or ranges are ignored.
+      - Entering text values will cause MIN to return an error.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: MIN(A2:A100, B2:B100, 4, 26)
+        output: Minimum value among the cells in ranges A2:A100, B2:B100, and the numbers 4 and 26
+      - input: MIN(1, 2, 3, 4, 5, C6:C20)
+        output: Minimum value among the numbers 1, 2, 3, 4, 5, and the cells in range C6:C20
+      - input: MIN(D@,E@,F@)
+        output: When placed in column G, this finds the minimum value among columns D, E, and F for each row (e.g., G2 = MIN(D2,E2,F2), G3 = MIN(D3,E3,F3), etc.)
+
+  - task: evaluate_max_formula
+    syntax: MAX(value1, [value2, ...])
+    description: Returns the maximum value in a numeric dataset.
+    parameters:
+      value1:
+        description: The first value or range to consider when calculating the maximum value.
+      value2:
+        description: "[OPTIONAL] Additional values or ranges to consider when calculating the maximum value."
+    notes:
+      - Each value argument must be a cell, a number, or a range containing numbers.
+      - Cells without numbers or ranges are ignored.
+      - Entering text values will cause MAX to return an error.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: MAX(A2:A100, B2:B100, 4, 26)
+        output: Maximum value among the cells in ranges A2:A100, B2:B100, and the numbers 4 and 26
+      - input: MAX(1, 2, 3, 4, 5, C6:C20)
+        output: Maximum value among the numbers 1, 2, 3, 4, 5, and the cells in range C6:C20
+      - input: MAX(A@, B@, 100)
+        output: When placed in column C, this finds the maximum value among columns A, B, and the number 100 for each row (e.g., C2 = MAX(A2,B2,100), C3 = MAX(A3,B3,100), etc.)
+
+  - task: evaluate_count_formula
+    syntax: COUNT(value1, [value2, ...])
+    description: Returns the number of numeric values in a dataset.
+    parameters:
+      value1:
+        description: The first value or range to consider when counting numeric values.
+      value2:
+        description: "[OPTIONAL] Additional values or ranges to consider when counting numeric values."
+    notes:
+      - COUNT counts all numeric values in a dataset, including those which appear more than once.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: COUNT(A2:A100, B2:B100, 4, 26)
+        output: Number of numeric values in the ranges A2:A100, B2:B100, and the numbers 4 and 26
+      - input: COUNT(1, 2, 3, 4, 5, C6:C20)
+        output: Number of numeric values among the numbers 1, 2, 3, 4, 5, and the cells in range C6:C20
+      - input: COUNT(D@, E@, F@)
+        output: When placed in column G, this counts the number of numeric values in columns D, E, and F for each row (e.g., G2 counts numeric values in D2, E2, F2; G3 counts numeric values in D3, E3, F3, etc.)
+
+  - task: evaluate_average_formula
+    syntax: AVERAGE(value1, [value2, ...])
+    description: Returns the numerical average value in a dataset, ignoring text.
+    parameters:
+      value1:
+        description: The first value or range to consider when calculating the average value.
+      value2:
+        description: "[OPTIONAL] Additional values or ranges to consider when calculating the average value."
+    notes:
+      - Any text encountered in the value arguments will be ignored.
+      - AVERAGE returns the mean of the combined value arguments; that is, the sum of the values in the value arguments divided by the number of such values.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: AVERAGE(A2:A100, B2:B100, 4, 26)
+        output: The average value of the numbers in the ranges A2:A100, B2:B100, and the numbers 4 and 26
+      - input: AVERAGE(1, 2, 3, 4, 5, C6:C20)
+        output: The average value of the numbers 1, 2, 3, 4, 5, and the cells in range C6:C20
+      - input: AVERAGE(A@, B@, C@)
+        output: When placed in column D, this calculates the average of columns A, B, and C for each row (e.g., D2 = AVERAGE(A2,B2,C2), D3 = AVERAGE(A3,B3,C3), etc.)
+      - input: AVERAGE(D@, E@, 100)
+        output: When placed in column F, this calculates the average of columns D, E, and the static value 100 for each row (e.g., F2 = AVERAGE(D2,E2,100), F3 = AVERAGE(D3,E3,100), etc.)
+
+  - task: evaluate_average_formula
+    syntax: AVERAGE(value1, [value2, ...])
+    description: Returns the numerical average value in a dataset, ignoring text.
+    parameters:
+      value1:
+        description: The first value or range to consider when calculating the average value.
+      value2:
+        description: "[OPTIONAL] Additional values or ranges to consider when calculating the average value."
+    notes:
+      - Any text encountered in the value arguments will be ignored.
+      - AVERAGE returns the mean of the combined value arguments; that is, the sum of the values in the value arguments divided by the number of such values.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: AVERAGE(A2:A100, B2:B100, 4, 26)
+        output: The average value of the numbers in the ranges A2:A100, B2:B100, and the numbers 4 and 26
+      - input: AVERAGE(1, 2, 3, 4, 5, C6:C20)
+        output: The average value of the numbers 1, 2, 3, 4, 5, and the cells in range C6:C20
+      - input: AVERAGE(A@, B@, C@)
+        output: When placed in column D, this calculates the average of columns A, B, and C for each row (e.g., D2 = AVERAGE(A2,B2,C2), D3 = AVERAGE(A3,B3,C3), etc.)
+      - input: AVERAGE(D@, E@, 100)
+        output: When placed in column F, this calculates the average of columns D, E, and the static value 100 for each row (e.g., F2 = AVERAGE(D2,E2,100), F3 = AVERAGE(D3,E3,100), etc.)
+
+  - task: evaluate_xlookup_formula
+    syntax: XLOOKUP(search_key, lookup_range, result_range, [missing_value], [match_mode], [search_mode])
+    description: Returns the values in the result range based on the position where a match was found in the lookup range. If no match is found, it returns the closest match.
+    parameters:
+      - search_key:
+          description: The value to search for. For example, 42, "Cats", or B24.
+      - lookup_range:
+          description: The range to consider for the search. This range must be a singular row or column.
+      - result_range:
+          description: The range to consider for the result. This range's row or column size should be the same as the lookup_range, depending on how the lookup is done.
+      - missing_value:
+          description: "[OPTIONAL] The value to return if no match is found. Default is #N/A."
+      - match_mode:
+          description: "[OPTIONAL] The manner in which to find a match for the search_key. Default is 0."
+          values:
+            - 0: Exact match
+            - 1: Exact match or next greater value
+            - -1: Exact match or next lesser value
+            - 2: Wildcard match
+      - search_mode:
+          description: "[OPTIONAL] The manner in which to search through the lookup_range. Default is 1."
+          values:
+            - 1: Search from first to last
+            - -1: Search from last to first
+            - 2: Binary search (ascending order)
+            - -2: Binary search (descending order)
+    notes:
+      - If result_range is more than one row or column, then the output will be the entire row/column at the index a match was found in the lookup_range.
+      - XLOOKUP can replace both VLOOKUP and HLOOKUP functions in many cases.
+      - XLOOKUP allows for the match column to be to the right of the output column, unlike VLOOKUP.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: XLOOKUP("Apple", A2:A, E2:E)
+        output: Replaces VLOOKUP("Apple", A2:E, 5, FALSE)
+      - input: XLOOKUP("Price", A1:E1, A6:E6)
+        output: Replaces HLOOKUP("Price", A1:E6, 6, FALSE)
+      - input: XLOOKUP("Apple", E2:E7, A2:A7)
+        output: Equivalent to VLOOKUP("Apple", {E2:E7, A2:A7}, 2, FALSE)
+
+  - task: evaluate_eq_formula
+    syntax: EQ(value1, value2)
+    description: Returns "TRUE" if two specified values are equal and "FALSE" otherwise. Equivalent to the "=" operator.
+    parameters:
+      - value1:
+          description: The first value to compare.
+      - value2:
+          description: The second value to compare against value1 for equality.
+    notes:
+      - This function is equivalent to using the "=" operator.
+      - The function returns a boolean value TRUE if the values are equal, FALSE otherwise.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: EQ(A2, A3)
+        output: Returns TRUE if the values in cells A2 and A3 are equal, FALSE otherwise.
+      - input: EQ(2, 3)
+        output: Returns FALSE, as 2 is not equal to 3.
+
+  - task: evaluate_eq_formula
+    syntax: EQ(value1, value2)
+    description: Returns "TRUE" if two specified values are equal and "FALSE" otherwise. Equivalent to the "=" operator.
+    parameters:
+      - value1:
+          description: The first value to compare.
+      - value2:
+          description: The second value to compare against value1 for equality.
+    notes:
+      - This function is equivalent to using the "=" operator.
+      - The function returns a boolean value TRUE if the values are equal, FALSE otherwise.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: EQ(A2, A3)
+        output: Returns TRUE if the values in cells A2 and A3 are equal, FALSE otherwise.
+      - input: EQ(2, 3)
+        output: Returns FALSE, as 2 is not equal to 3.
+
+  - task: evaluate_ne_formula
+    syntax: NE(value1, value2)
+    description: Returns "TRUE" if two specified values are not equal and "FALSE" otherwise. Equivalent to the "<>" operator.
+    parameters:
+      - value1:
+          description: The first value to compare.
+      - value2:
+          description: The second value to compare against value1 for inequality.
+    notes:
+      - This function is equivalent to using the "<>" operator.
+      - The function returns a boolean value TRUE if the values are not equal, FALSE if they are equal.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: NE(A2, A3)
+        output: Returns TRUE if the values in cells A2 and A3 are not equal, FALSE otherwise.
+      - input: NE(2, 3)
+        output: Returns TRUE, as 2 is not equal to 3.
+
+  - task: evaluate_gt_formula
+    syntax: GT(value1, value2)
+    description: Returns TRUE if the first argument is strictly greater than the second, and FALSE otherwise. Equivalent to the ">" operator.
+    parameters:
+      - value1:
+          description: The value to test as being greater than value2.
+      - value2:
+          description: The second value to compare against.
+    notes:
+      - This function is equivalent to using the ">" operator.
+      - The function returns a boolean value TRUE if value1 is greater than value2, FALSE otherwise.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: GT(A2, A3)
+        output: Returns TRUE if the value in cell A2 is greater than the value in cell A3, FALSE otherwise.
+      - input: GT(2, 3)
+        output: Returns FALSE, as 2 is not greater than 3.
+
+  - task: evaluate_gte_formula
+    syntax: GTE(value1, value2)
+    description: Returns TRUE if the first argument is greater than or equal to the second, and FALSE otherwise. Equivalent to the ">=" operator.
+    parameters:
+      - value1:
+          description: The value to test as being greater than or equal to value2.
+      - value2:
+          description: The second value to compare against.
+    notes:
+      - This function is equivalent to using the ">=" operator.
+      - The function returns a boolean value TRUE if value1 is greater than or equal to value2, FALSE otherwise.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: GTE(A2, A3)
+        output: Returns TRUE if the value in cell A2 is greater than or equal to the value in cell A3, FALSE otherwise.
+      - input: GTE(2, 3)
+        output: Returns FALSE, as 2 is not greater than or equal to 3.
+      - input: GTE(3, 3)
+        output: Returns TRUE, as 3 is equal to 3.
+
+  - task: evaluate_lt_formula
+    syntax: LT(value1, value2)
+    description: Returns TRUE if the first argument is strictly less than the second, and FALSE otherwise. Equivalent to the "<" operator.
+    parameters:
+      - value1:
+          description: The value to test as being less than value2.
+      - value2:
+          description: The second value to compare against.
+    notes:
+      - This function is equivalent to using the "<" operator.
+      - The function returns a boolean value TRUE if value1 is less than value2, FALSE otherwise.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: LT(A2, A3)
+        output: Returns TRUE if the value in cell A2 is less than the value in cell A3, FALSE otherwise.
+      - input: LT(2, 3)
+        output: Returns TRUE, as 2 is less than 3.
+      - input: LT(3, 3)
+        output: Returns FALSE, as 3 is not less than 3.
+
+  - task: evaluate_lte_formula
+    syntax: LTE(value1, value2)
+    description: Returns TRUE if the first argument is less than or equal to the second, and FALSE otherwise. Equivalent to the "<=" operator.
+    parameters:
+      - value1:
+          description: The value to test as being less than or equal to value2.
+      - value2:
+          description: The second value to compare against.
+    notes:
+      - This function is equivalent to using the "<=" operator.
+      - The function returns a boolean value TRUE if value1 is less than or equal to value2, FALSE otherwise.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: LTE(A2, A3)
+        output: Returns TRUE if the value in cell A2 is less than or equal to the value in cell A3, FALSE otherwise.
+      - input: LTE(2, 3)
+        output: Returns TRUE, as 2 is less than 3.
+      - input: LTE(3, 3)
+        output: Returns TRUE, as 3 is equal to 3.
+      - input: LTE(4, 3)
+        output: Returns FALSE, as 4 is greater than 3.
+
+  - task: evaluate_power_formula
+    syntax: POWER(base, exponent)
+    description: Returns a number raised to a power.
+    parameters:
+      - base:
+          description: The number to raise to the exponent power.
+      - exponent:
+          description: The exponent to raise the base to.
+    notes:
+      - This function performs exponentiation, equivalent to base^exponent in mathematical notation.
+      - The base can be any real number.
+      - The exponent can be any real number, including fractions and negative numbers.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: POWER(4, 0.5)
+        output: Returns 2, as 4 raised to the power of 0.5 is the square root of 4.
+      - input: POWER(A2, B2)
+        output: Returns the value in cell A2 raised to the power of the value in cell B2.
+      - input: POWER(2, 5)
+        output: Returns 32, as 2 raised to the power of 5 is 32.
+      - input: POWER(3, -2)
+        output: Returns 0.1111... (1/9), as 3 raised to the power of -2 is 1/3^2.
+
+  - task: evaluate_product_formula
+    syntax: PRODUCT(factor1, [factor2, ...])
+    description: Returns the result of multiplying a series of numbers together.
+    parameters:
+      - factor1:
+          description: The first number or range to calculate for the product.
+      - factor2:
+          description: "[OPTIONAL] Additional values to multiply by."
+      - "...":
+          description: "[OPTIONAL] Up to 30 factors can be specified, but some implementations may support more."
+    notes:
+      - If only a single number for factor1 is supplied, PRODUCT returns factor1.
+      - Each factor may be a number or a range. If a range, empty cells are ignored.
+      - Although PRODUCT is specified as taking a maximum of 30 arguments, some implementations (like Google Sheets) support an arbitrary number of arguments for this function.
+      - The function multiplies all the numbers given as arguments.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUM(A@,B@) in column C will sum values from columns A and B for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+    examples:
+      - input: PRODUCT(A2:A100)
+        output: Returns the product of all numbers in the range A2:A100.
+      - input: PRODUCT(1, 2, 3, 4, 5, A2:A100)
+        output: Returns the product of the numbers 1, 2, 3, 4, 5, and all numbers in the range A2:A100.
+      - input: PRODUCT(2, 3)
+        output: Returns 6, as 2 * 3 = 6.
+      - input: PRODUCT(5)
+        output: Returns 5, as there's only one factor provided.
+
+  - task: evaluate_if_formula
+    syntax: IF(logical_expression, value_if_true, value_if_false)
+    description: Returns one value if a logical expression is TRUE and another if it is FALSE.
+    parameters:
+      - logical_expression:
+          description: The expression to evaluate as TRUE or FALSE.
+      - value_if_true:
+          description: The value to return if the logical expression is TRUE.
+      - "value_if_false":
+          description: The value to return if the logical expression is FALSE.
+    notes:
+      - The criterion must be a logic expression that evaluates to true or false, such as A1>B1.
+      - The true value can be a number, text, or another formula.
+      - The false value can be a number, text, or another formula.
+      - There can be multiple levels of nesting. For example, IF(A1>B1, "Yes", IF(A1<B1, "No", "Equal")).
+      - Using ColumnLetter@ applies the formula to the entire column. For example, IF(A@<0,"Negative", "NonNegative") in column C will add "Negative" or "NonNegative" for each row based on the corresponding value in column A.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUM(A@, B@, 10) is valid.
+      - Comparison operators can be used in the logical expression, such as =, <>, <, >, <=, and >=.
+    examples:
+      - input: IF(A2>10, "Yes", "No")
+        output: Returns "Yes" if the value in cell A2 is greater than 10; otherwise, returns "No".
+      - input: IF(A2=B2, "Equal", "Not Equal")
+        output: Returns "Equal" if the values in cells A2 and B2 are equal; otherwise, returns "Not Equal".
+      - input: IF(REGEXMATCH(A2, "^[A-Z]"), "Uppercase", "Lowercase")
+        output: Returns "Uppercase" if the value in cell A2 starts with an uppercase letter; otherwise, returns "Lowercase".
+
+  - task: evaluate_sumifs_formula
+    syntax: SUMIFS(sum_range, criteria_range1, criterion1, [criteria_range2, criterion2, ...])
+    description: Returns the sum of a range that meets multiple criteria.
+    parameters:
+      - sum_range:
+          description: The range of cells to sum.
+      - criteria_range1:
+          description: The first range to apply the first criterion.
+      - criterion1:
+          description: The criterion to apply to the first criteria_range.
+      - criteria_range2:
+          description: "[OPTIONAL] The second range to apply the second criterion."
+      - criterion2:
+          description: "[OPTIONAL] The criterion to apply to the second criteria_range."
+      - "...":
+          description: "[OPTIONAL] Additional criteria ranges and criteria can be added."
+    notes:
+      - SUMIFS adds the cells in sum_range that meet multiple criteria.
+      - Each criteria_range must be the same size as sum_range.
+      - Each criterion can be a number, expression, cell reference, or text.
+      - The function supports up to 127 pairs of criteria_range and criterion.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, SUMIFS(C1:C10, D1:D10, B@) in column E will sum values from column C where the corresponding value in column D is "B" for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, SUMIFS(C1:C10, D1:D10, B@, E1:E10, 4) is valid.
+    examples:
+      - input: SUMIFS(C2:C100, A2:A100, "Apple", B2:B100, "Red")
+        output: Returns the sum of cells in the range C2:C100 where cells in A2:A100 contain "Apple" and cells in B2:B100 contain "Red".
+      - input: SUMIFS(D2:D100, A2:A100, ">10", B2:B100, "<20")
+        output: Returns the sum of cells in the range D2:D100
+
+  - task: evaluate_countif_formula
+    syntax: COUNTIF(range, criterion)
+    description: Returns the count of cells that meet a single criterion.
+    parameters:
+      - range:
+          description: The range of cells to count.
+      - criterion:
+          description: The criterion to apply to the range.
+    notes:
+      - COUNTIF counts the number of cells in a range that meet a single criterion.
+      - The criterion can be a number, expression, cell reference, or text.
+      - The function supports wildcards, such as * and ?, in the criterion.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, COUNTIF(A1:1000, B@) in column C will count cells in column A where the corresponding value in column B is met for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, COUNTIF(A1:A10, "Apple", B@) is valid.
+    examples:
+      - input: COUNTIF(A2:A100, "Apple")
+        output: Returns the count of cells in the range A2:A100 that contain "Apple".
+      - input: COUNTIF(B2:B100, "<20")
+        output: Returns the count of cells in the range B2:B100 that are less than 20.
+
+  - task: evaluate_countifs_formula
+    syntax: COUNTIFS(criteria_range1, criterion1, [criteria_range2, criterion2, ...])
+    description: Returns the count of rows that meet multiple criteria.
+    parameters:
+      - criteria_range1:
+          description: The first range to apply the first criterion.
+      - criterion1:
+          description: The criterion to apply to the first criteria_range.
+      - criteria_range2:
+          description: "[OPTIONAL] The second range to apply the second criterion."
+      - criterion2:
+          description: "[OPTIONAL] The criterion to apply to the second criteria_range."
+      - "...":
+          description: "[OPTIONAL] Additional criteria ranges and criteria can be added."
+    notes:
+      - COUNTIFS counts the number of cells that meet multiple criteria.
+      - Each criteria_range must be the same size as the range being counted.
+      - Each criterion can be a number, expression, cell reference, or text.
+      - The function supports up to 127 pairs of criteria_range and criterion.
+    examples:
+      - input: COUNTIFS(A2:A100, "Apple", B2:B100, "Red")
+        output: Returns the count of rows in A2:A100 where column A contains "Apple" and column B contains "Red".
+      - input: COUNTIFS(A2:A100, ">10", B2:B100, "<20")
+        output: Returns the count of rows in A2:A100 where column A is greater than 10 and column B is less than 20.
+
+  - task: evaluate_regexreplace_formula
+    syntax: REGEXREPLACE(text, regular_expression, replacement)
+    description: Replaces text that matches a regular expression with a specified replacement.
+    parameters:
+      - text:
+          description: The text to perform the replacement on.
+      - regular_expression:
+          description: The regular expression pattern to match in the text.
+      - replacement:
+          description: The text to replace the matched regular expression with.
+    notes:
+      - REGEXREPLACE replaces text that matches a regular expression with the specified replacement text.
+      - The regular expression can be a simple pattern or a more complex one.
+      - The replacement text can include references to matched groups in the regular expression.
+      - The function is case-sensitive by default.
+      - The regular expression can include special characters for pattern matching.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, REGEXREPLACE(A@, "Apple", "Orange") in column B will replace "Apple" with "Orange" for each row.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, REGEXREPLACE(A@, "Apple", "Orange", B@) is valid.
+    examples:
+      - input: REGEXREPLACE("Hello, World!", "World", "Universe")
+        output: Returns "Hello, Universe!" by replacing "World" with "Universe" in the text.
+      - input: REGEXREPLACE("123-456-7890", "(\d{3})-(\d{3})-(\d{4})", "($1) $2-$3")
+        output: Returns "(123) 456-7890" by reformatting the phone number using matched groups.
+
+  - task: evaluate_regexmatch_formula
+    syntax: REGEXMATCH(text, regular_expression)
+    description: Checks if a text matches a regular expression pattern.
+    parameters:
+      - text:
+          description: The text to check for a match.
+      - regular_expression:
+          description: The regular expression pattern to match in the text.
+    notes:
+      - REGEXMATCH checks if the text matches a regular expression pattern.
+      - The regular expression can be a simple pattern or a more complex one.
+      - The function returns TRUE if there is a match and FALSE otherwise.
+      - The function is case-sensitive by default.
+      - The regular expression can include special characters for pattern matching.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, REGEXMATCH(A@, "Apple") in column B will check for "Apple" in each row of column A.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, REGEXMATCH(A@, "\d{3}-\d{3}-\d{4}", B@) is valid.
+    examples:
+      - input: REGEXMATCH("Hello, World!", "World")
+        output: Returns TRUE as "World" is found in the text.
+      - input: REGEXMATCH("123-456-7890", "\d{3}-\d{3}-\d{4}")
+        output: Returns TRUE as the text matches the phone number pattern.
+
+  - task: evaluate_lower_formula
+    syntax: LOWER(text)
+    description: Converts a specified string to lowercase.
+    parameters:
+      - text:
+          description: The text to convert to lowercase.
+    notes:
+      - LOWER converts all letters in the specified text to lowercase.
+      - The function does not affect numbers, symbols, or non-alphabetic characters.
+      - Using ColumnLetter@ applies the formula to the entire column. For example, LOWER(A@) in column B will will convert into lowercase in each row of column A.
+      - The ColumnLetter@ syntax (e.g., A@, B@) can only be used alone to refer to entire columns. It cannot be combined with row numbers or ranges. For instance, A@ is valid, but A1@, A2@, or A1@:A10@ are not valid.
+      - The ColumnLetter@ syntax can be combined with static values or other formula elements. For example, LOWER(A@, B@) is valid.
+    examples:
+      - input: LOWER("Hello, World!")
+        output: Returns "hello, world!" by converting all letters to lowercase.
+      - input: LOWER("UPPERCASE")
+        output: Returns "uppercase" by converting all letters to lowercase.
+      - input: LOWER(A2)
+        output: Returns the value in cell A2 converted to lowercase.
+      - input: LOWER(A@)
+        output: Converts each row value in column A to lowercase.

@@ -1,0 +1,5 @@
+PLANNING_PROMPT_FILE_PATH = "./static/planning_prompt.txt"
+EXECUTION_PROMPT_FILE_PATH = "./static/execution_prompt.txt"
+VALIDATION_PROMPT_FILE_PATH = "./static/validation_prompt.txt"
+STATUS_FAILED = "failed"
+STATUS_SUCCESS = "success"

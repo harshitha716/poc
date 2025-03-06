@@ -1,0 +1,23 @@
+{'mapped_columns': [
+        {'name': 'Date in format', 'type': 'date', 'region': 'A17:A31', 'mapped_attribute': 'Initiated Date', 'attribute_type': 'date'
+        },
+        {'name': 'Transaction Date', 'type': 'date', 'region': 'B17:B31', 'mapped_attribute': 'Closing Balance Updated Date', 'attribute_type': 'date'
+        },
+        {'name': 'Value Date', 'type': 'date', 'region': 'C17:C31', 'mapped_attribute': 'Value Date', 'attribute_type': 'date'
+        },
+        {'name': 'Narration', 'type': 'string', 'region': 'D17:D31', 'mapped_attribute': 'Remarks', 'attribute_type': 'string'
+        },
+        {'name': 'Transaction Reference', 'type': 'string', 'region': 'E17:E31', 'mapped_attribute': 'Bank Reference Id', 'attribute_type': 'string'
+        },
+        {'name': 'Debit', 'type': 'number', 'region': 'F17:F31', 'mapped_attribute': 'Debit', 'attribute_type': 'float'
+        },
+        {'name': 'Credit', 'type': 'number', 'region': 'G17:G31', 'mapped_attribute': 'Credit', 'attribute_type': 'float'
+        },
+        {'name': 'Running Balance', 'type': 'string', 'region': 'H17:H31', 'mapped_attribute': 'Balance', 'attribute_type': 'float'
+        },
+        {'name': 'Transaction Type', 'type': 'string', 'region': 'J17:J31', 'mapped_attribute': 'Transaction type', 'attribute_type': 'string'
+        },
+        {'name': 'Txn Type 2', 'type': 'string', 'region': 'K17:K31', 'mapped_attribute': 'Transaction Sub type', 'attribute_type': 'string'
+        }
+    ], 'unmapped_attributes': ['Account Number', 'Currency Code', 'Status', 'Tag']
+}
