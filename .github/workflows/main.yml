@@ -90,7 +90,7 @@ jobs:
           ECR_REPO=842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha
           IMAGE_TAG=$NEW_TAG
           docker build -t "${ECR_REPO}:${IMAGE_TAG}" --build-arg SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}" .
-          docker tag harshitha:$NEW_TAG 842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha:$NEW_TAG
+          docker tag harshitha:$IMAGE_TAG 842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha:$IMAGE_TAG
           docker push 842675998483.dkr.ecr.us-east-2.amazonaws.com/harshitha:name: Build and Deploy To Production
 
 on:
