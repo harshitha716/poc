@@ -7,7 +7,7 @@ on:
 env:
   APP_NAME: pantheon
   GITHUB_ACTOR_SLACK: ${{ github.event.client_payload.github_actor }}
-  NEW_TAG: v1
+  NEW_TAG: main
 
 concurrency:
   group: production-deploy
