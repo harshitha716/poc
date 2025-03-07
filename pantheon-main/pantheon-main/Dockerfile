@@ -67,10 +67,8 @@ ENV FASTAPI_ENV=production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 COPY gunicorn_conf.py gunicorn_conf.py
-COPY ./pantheon /pantheon-main/pantheon-main
-/pantheon/
-COPY ./pantheon_v2 /pantheon-main/pantheon-main
-/pantheon_v2/
+COPY ./pantheon /pantheon-main/pantheon-main/pantheon/
+COPY ./pantheon_v2 /pantheon-main/pantheon-main/pantheon_v2/
 
 # Add this line to add the root directory to PYTHONPATH
 ENV PYTHONPATH="/:${PYTHONPATH}"
