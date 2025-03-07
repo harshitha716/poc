@@ -93,7 +93,6 @@ jobs:
         env:
           ECR_REGISTRY: "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
         run: |
-          $ECR_REPO=harshitha
           IMAGE_TAG=$NEW_TAG
           docker build -t $ECR_REPO .
           docker push $ECR_REPO:$IMAGE_TAG
