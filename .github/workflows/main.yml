@@ -7,7 +7,7 @@ on:
 env:
   APP_NAME: pantheon
   GITHUB_ACTOR_SLACK: ${{ github.event.client_payload.github_actor }}
-  NEW_TAG: ${{ github.event.client_payload.new_tag }}
+  NEW_TAG: v1
 
 concurrency:
   group: production-deploy
@@ -69,14 +69,6 @@ jobs:
           echo "NEW_TAG=$NEW_TAG"
           echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID"
           echo "AWS_REGION=$AWS_REGION"
-
-      - name: Debug Payload
-        run: |
-          echo "NEW_TAG from payload: ${{ github.event.client_payload.new_tag }}"
-
-      - name: Debug NEW_TAG
-        run: |
-          echo "NEW_TAG=${NEW_TAG:-'latest'}"
           
       - name: "Checkout repository on : ${{ env.NEW_TAG }}"
         uses: actions/checkout@v4
@@ -102,7 +94,7 @@ jobs:
           ECR_REGISTRY: "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
         run: |
           ECR_REPO="${ECR_REGISTRY}/${ECR_REPO}/${APP_NAME}"
-          IMAGE_TAG=${NEW_TAG:-'latest'}
+          IMAGE_TAG=$NEW_TAG
           docker build -t $ECR_REPO:$IMAGE_TAG --build-arg SSH_PRIVATE_KEY="${{secrets[env.SSH_PRIVATE_KEY]}}" .
           docker push $ECR_REPO:$IMAGE_TAG
           echo "ECR_REPO=$ECR_REPO" >> $GITHUB_OUTPUT
