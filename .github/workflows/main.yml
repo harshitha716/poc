@@ -94,7 +94,7 @@ jobs:
           ECR_REGISTRY: "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
         run: |
           IMAGE_TAG=$NEW_TAG
-          docker build -f pantheon-main/pantheon-main/pantheon_v2/Dockerfile -t $ECR_REPO .
+          docker build -f pantheon-main/pantheon_v2/Dockerfile -t $ECR_REPO .
           docker push $ECR_REPO:$IMAGE_TAG
           echo "ECR_REPO=$ECR_REPO" >> $GITHUB_OUTPUT
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
